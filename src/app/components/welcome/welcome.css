@@ -11,7 +11,7 @@
   overflow: hidden;
   background:
     linear-gradient(to top, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.04)),
-    url(/assets/welcome.png) center / cover no-repeat;
+    url('/assets/welcome.png') center / cover no-repeat;
   display: grid;
   place-items: end center;
   padding: 24px;

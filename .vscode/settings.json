@@ -1,0 +1,6 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "npx angular-cli-ghpages": true,
+        "git add": true
+    }
+}
