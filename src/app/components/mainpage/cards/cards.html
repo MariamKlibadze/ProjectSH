@@ -1,0 +1,148 @@
+<section class="cards-page">
+  <section class="discount-banner">
+    <p>{{ 'WELCOME.DISCOUNT' | translate }}</p>
+  </section>
+
+  <section class="hero-slider" aria-label="Featured photos">
+    <div class="hero-slider-container">
+      <button class="hero-btn prev" (click)="prevHeroSlide()" aria-label="Previous image">‹</button>
+
+      <div class="hero-slider-track">
+        <img [src]="heroImages()[heroSlideIndex()]" alt="Featured products on display" />
+      </div>
+
+      <button class="hero-btn next" (click)="nextHeroSlide()" aria-label="Next image">›</button>
+
+      <div class="hero-dots">
+        @for (img of heroImages(); track $index) {
+        <button class="dot" [class.active]="$index === heroSlideIndex()" (click)="goToHeroSlide($index)"
+          [attr.aria-label]="'Go to image ' + ($index + 1)"></button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="layout">
+    <aside class="sidebar">
+      <h3 class="sidebar-title">{{ 'FILTERS.SEARCH' | translate }} & {{ 'FILTERS.CATEGORY' | translate | lowercase }}
+      </h3>
+
+      <label class="field-label" for="search">{{ 'FILTERS.SEARCH' | translate }}</label>
+      <input id="search" type="text" class="field" [placeholder]="'FILTERS.SEARCH' | translate" [value]="searchQuery()"
+        (input)="onSearchInput($event)" />
+
+      <label class="field-label" for="category">{{ 'FILTERS.CATEGORY' | translate }}</label>
+      <select id="category" class="field" [value]="selectedCategory()" (change)="onCategoryChange($event)">
+        <option value="">{{ 'FILTERS.CATEGORIES' | translate }}</option>
+        @for (c of categories(); track c) {
+        <option [value]="c">{{ c }}</option>
+        }
+      </select>
+
+      <label class="field-label" for="brand">{{ 'FILTERS.BRAND' | translate }}</label>
+      <select id="brand" class="field" [value]="selectedBrand()" (change)="onBrandChange($event)">
+        <option value="">{{ 'FILTERS.BRANDS' | translate }}</option>
+        @for (b of brands(); track b) {
+        <option [value]="b">{{ b }}</option>
+        }
+      </select>
+
+      <label class="field-label" for="maxPrice">{{ 'FILTERS.MAX_PRICE' | translate }}</label>
+      <input id="maxPrice" type="number" min="0" class="field" [placeholder]="'FILTERS.MAX_PRICE' | translate"
+        [value]="maxPrice() ?? ''" (input)="onPriceInput($event)" />
+
+      <label class="field-label" for="rating">{{ 'FILTERS.MIN_RATING' | translate }}</label>
+      <select id="rating" class="field" [value]="minRating()" (change)="onRatingChange($event)">
+        <option value="0">{{ 'FILTERS.ANY_RATING' | translate }}</option>
+        <option value="1">{{ 'FILTERS.STARS' | translate:{count:1} }}</option>
+        <option value="2">{{ 'FILTERS.STARS' | translate:{count:2} }}</option>
+        <option value="3">{{ 'FILTERS.STARS' | translate:{count:3} }}</option>
+        <option value="4">{{ 'FILTERS.STARS' | translate:{count:4} }}</option>
+        <option value="5">{{ 'FILTERS.STARS' | translate:{count:5} }}</option>
+      </select>
+
+      <button class="btn clear" type="button" (click)="clearFilters()">{{ 'FILTERS.CLEAR_FILTERS' | translate
+        }}</button>
+    </aside>
+
+    <div class="content">
+      <section class="grid">
+        @if (!auth.isLoggedIn()) {
+        <p class="notice">
+          {{ 'MESSAGES.LOGIN_PROMPT_START' | translate }}
+          <a routerLink="/login" class="login-link">{{ 'MESSAGES.LOGIN_PROMPT_LOGIN' | translate }}</a>
+          {{ 'MESSAGES.LOGIN_PROMPT_OR' | translate }}
+          <a routerLink="/register" class="register-link">{{ 'MESSAGES.LOGIN_PROMPT_REGISTER' | translate }}</a>
+          {{ 'MESSAGES.LOGIN_PROMPT_END' | translate }}
+        </p>
+        } @else if (authMessage) {
+        <p class="notice">{{ authMessage }}</p>
+        }
+        @if (loading) {
+        <p class="notice">{{ 'MESSAGES.LOADING' | translate }}</p>
+        } @else if (errorMessage) {
+        <p class="notice">{{ errorMessage }}</p>
+        } @else {
+        @if (filteredProducts().length === 0) {
+        <p class="notice">{{ 'MESSAGES.NO_PRODUCTS' | translate }}</p>
+        } @else {
+        @for (p of filteredProducts(); track p._id) {
+        <article class="card">
+          <img class="thumb" [src]="p.thumbnail" [alt]="p.title" />
+
+          <div class="body">
+            <a class="title" [routerLink]="['/product', p._id]">
+              {{ p.title }}
+            </a>
+
+            <div class="meta">
+              <span class="price">{{ p.price.current }} {{ p.price.currency }}</span>
+              <span class="rating" [title]="averageRating(p).toFixed(1)">{{ stars(averageRating(p)) }}</span>
+            </div>
+            <p class="rating-count">{{ ratingCount(p._id) }} {{ 'PRODUCT.RATINGS' | translate }}</p>
+
+            <div class="tags">
+              <span class="tag">{{ p.category.name }}</span>
+              <span class="tag">{{ p.brand }}</span>
+            </div>
+
+            <p class="stock">{{ 'PRODUCT.IN_STOCK' | translate }}: {{ p.stock }}</p>
+            <p class="stock">{{ 'PRODUCT.SELECTED' | translate }}: {{ selectedQuantity(p._id) }} | {{ 'PRODUCT.LEFT' |
+              translate }}: {{ stockLeft(p) }}</p>
+
+            @if (selectedQuantity(p._id) > 0) {
+            <div class="cart-controls">
+              <button class="btn small" (click)="decrementCart(p._id)">-</button>
+              <span class="quantity">{{ selectedQuantity(p._id) }}</span>
+              <button class="btn small" (click)="incrementCart(p._id)"
+                [disabled]="selectedQuantity(p._id) >= p.stock">+</button>
+              <button class="btn remove" (click)="removeFromCart(p._id)">{{ 'PRODUCT.REMOVE_FROM_CART' | translate
+                }}</button>
+            </div>
+            } @else {
+            <button class="btn" (click)="addToCart(p)" [disabled]="stockLeft(p) === 0 || !auth.isLoggedIn()">
+              {{ stockLeft(p) === 0 ? ('PRODUCT.OUT_OF_STOCK' | translate) : ('PRODUCT.ADD_TO_CART' | translate) }}
+            </button>
+            }
+
+            @if (isFavorite(p._id)) {
+            <button class="btn secondary favorited" (click)="removeFromFavorites(p._id)">{{
+              'PRODUCT.REMOVE_FROM_FAVORITES' |
+              translate }}</button>
+            } @else {
+            <button class="btn secondary" (click)="addToFavorites(p)" [disabled]="!auth.isLoggedIn()">{{
+              'PRODUCT.ADD_TO_FAVORITES' | translate }}</button>
+            }
+
+            @if (auth.isAdmin()) {
+            <button class="btn edit" (click)="editProduct(p)">{{ 'PRODUCT.EDIT' | translate }}</button>
+            }
+          </div>
+        </article>
+        }
+        }
+        }
+      </section>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,80 @@
+/* Custom Footer Styles - Bootstrap CSS is imported globally */
+
+.footer-custom {
+    background: var(--header-bg);
+    color: var(--link-color);
+    margin-top: auto;
+    border-top: 2px solid var(--border-color);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.footer-custom h5 {
+    color: var(--link-color);
+    font-weight: 700;
+}
+
+.footer-custom p,
+.footer-custom li {
+    color: var(--text-color);
+}
+
+.footer-custom a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-custom a:hover {
+    color: var(--link-hover);
+}
+
+.footer-copyright {
+    background: var(--button-bg);
+    padding: 1rem 0;
+    border-top: 1px solid var(--button-border);
+}
+
+.copyright-text {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+/* Social Icons */
+.social-icons a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: var(--button-bg);
+    transition: all 0.3s ease;
+    margin: 0 5px;
+}
+
+.social-icons a:hover {
+    background-color: var(--link-color);
+    transform: translateY(-2px);
+}
+
+.social-icons a i {
+    font-size: 16px;
+    color: var(--link-color);
+}
+
+.social-icons a:hover i {
+    color: white;
+}
+
+/* Links */
+footer a:hover {
+    color: var(--link-hover) !important;
+    transition: color 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .col-lg-6 {
+        margin-bottom: 2rem;
+    }
+}

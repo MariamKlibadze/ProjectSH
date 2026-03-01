@@ -1,0 +1,24 @@
+<section class="auth-card">
+  <h1>{{ 'AUTH.LOGIN.TITLE' | translate }}</h1>
+
+  <form class="auth-form" (ngSubmit)="submit()">
+    <label>
+      {{ 'AUTH.LOGIN.EMAIL' | translate }}
+      <input type="email" [(ngModel)]="email" name="email" required />
+    </label>
+
+    <label>
+      {{ 'AUTH.LOGIN.PASSWORD' | translate }}
+      <input type="password" [(ngModel)]="password" name="password" required />
+    </label>
+
+    <button type="submit">{{ 'AUTH.LOGIN.BUTTON' | translate }}</button>
+  </form>
+
+  @if (message) {
+  <p class="message">{{ message }}</p>
+  }
+
+  <p>{{ 'AUTH.LOGIN.NO_ACCOUNT' | translate }} <a routerLink="/register">{{ 'AUTH.LOGIN.REGISTER_LINK' | translate
+      }}</a></p>
+</section>

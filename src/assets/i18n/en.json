@@ -1,0 +1,159 @@
+{
+  "NAV": {
+    "HOME": "Home",
+    "FAVORITES": "Favorites",
+    "CART": "Cart",
+    "ADMIN": "Admin",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout"
+  },
+  "THEME": {
+    "LIGHT_MODE": "Light Mode",
+    "DARK_MODE": "Dark Mode"
+  },
+  "FILTERS": {
+    "SEARCH": "Search",
+    "CATEGORY": "Category",
+    "CATEGORIES": "Categories",
+    "BRAND": "Brand",
+    "BRANDS": "Brands",
+    "MAX_PRICE": "Max price",
+    "MIN_RATING": "Min rating",
+    "ANY_RATING": "Any rating",
+    "STARS": "{{count}}+ stars",
+    "CLEAR_FILTERS": "Clear filters"
+  },
+  "MESSAGES": {
+    "NO_PRODUCTS": "No products match your filters.",
+    "LOADING": "Loading...",
+    "LOGIN_PROMPT_START": "Please",
+    "LOGIN_PROMPT_LOGIN": "login",
+    "LOGIN_PROMPT_OR": "or",
+    "LOGIN_PROMPT_REGISTER": "register",
+    "LOGIN_PROMPT_END": "to add items to cart or favorites.",
+    "AUTH_MESSAGE": "Please login or register to add items to cart."
+  },
+  "PRODUCT": {
+    "IN_STOCK": "In stock",
+    "SELECTED": "Selected",
+    "LEFT": "Left",
+    "ADD_TO_CART": "Add to cart",
+    "REMOVE_FROM_CART": "Remove from cart",
+    "OUT_OF_STOCK": "Out of stock",
+    "ADD_TO_FAVORITES": "Add to favorites",
+    "REMOVE_FROM_FAVORITES": "Remove from favorites",
+    "EDIT": "Edit",
+    "RATINGS": "ratings"
+  },
+  "PRODUCT_DETAILS": {
+    "BACK_TO_PRODUCTS": "← Back to products",
+    "LOADING": "Loading product details...",
+    "INVALID_ID": "Invalid product id.",
+    "DESCRIPTION": "Description",
+    "REVIEWS_TITLE": "Reviews",
+    "NO_REVIEWS": "No reviews yet. Be the first to review this product.",
+    "DELETE_REVIEW": "Delete",
+    "YOUR_RATING": "Your rating",
+    "YOUR_REVIEW": "Your review",
+    "REVIEW_PLACEHOLDER": "Write your review",
+    "SUBMIT_REVIEW": "Submit review",
+    "LOGIN_TO_REVIEW": "Please login to post a review and rating.",
+    "REVIEW_SUBMITTED": "Review submitted successfully!",
+    "REVIEW_DELETED": "Review deleted successfully!"
+  },
+  "CART": {
+    "EMPTY": "Your cart is empty",
+    "REMOVE": "Remove",
+    "YOU_CHOSE": "You chose",
+    "LEFT_IN_STOCK": "Left in stock",
+    "PRODUCTS": "Your Cart Items",
+    "CHECKOUT_SUMMARY": "Order Summary",
+    "TOTAL_ITEMS": "Total Items",
+    "TOTAL_PRICE": "Total Price",
+    "PROCEED_CHECKOUT": "Proceed to Checkout"
+  },
+  "FAVORITES": {
+    "EMPTY": "No favorites yet",
+    "REMOVE": "Remove from favorites"
+  },
+  "WELCOME": {
+    "DISCOUNT": "discount on the first order! use code 20%OFF on your first order to get the discount",
+    "ENTER": "Enter"
+  },
+  "FOOTER": {
+    "ABOUT": "About us",
+    "ABOUT_TEXT": "We sell happiness not just products but experiences that bring joy to our customers.",
+    "COPYRIGHT": "Copyright © 2026 All Rights Reserved",
+    "CONTACT": "Contact"
+  },
+  "LANGUAGE": {
+    "SELECT": "Select Language",
+    "ENGLISH": "English",
+    "GEORGIAN": "ქართული"
+  },
+  "ADMIN": {
+    "TITLE": "Admin — Manage Products",
+    "ADD_PRODUCT": "Add product",
+    "EDIT_PRODUCT": "Edit product",
+    "TITLE_LABEL": "Title",
+    "BRAND_LABEL": "Brand",
+    "PRICE_LABEL": "Price",
+    "CURRENCY_LABEL": "Currency",
+    "STOCK_LABEL": "Stock",
+    "CATEGORY_LABEL": "Category",
+    "THUMBNAIL_LABEL": "Thumbnail URL",
+    "DESCRIPTION_LABEL": "Description",
+    "SAVE": "Save",
+    "CLEAR": "Clear",
+    "PRODUCTS": "Products",
+    "LOADING_PRODUCTS": "Loading products...",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "REVIEWS": "Reviews",
+    "RATING": "Rating",
+    "HERO_IMAGES": "Hero Images",
+    "IMAGE_1_URL": "Image 1 URL",
+    "IMAGE_2_URL": "Image 2 URL",
+    "IMAGE_3_URL": "Image 3 URL",
+    "SAVE_HERO": "Save Hero Images"
+  },
+  "AUTH": {
+    "LOGIN": {
+      "TITLE": "Login",
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "BUTTON": "Login",
+      "NO_ACCOUNT": "No account yet?",
+      "REGISTER_LINK": "Register"
+    },
+    "REGISTER": {
+      "TITLE": "Register",
+      "NAME": "Name",
+      "SURNAME": "Surname",
+      "GENDER": "Gender",
+      "SELECT_GENDER": "Select gender",
+      "FEMALE": "Female",
+      "MALE": "Male",
+      "OTHER": "Other",
+      "DATE_OF_BIRTH": "Date of birth",
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "BUTTON": "Create account",
+      "CREATING": "Creating...",
+      "HAVE_ACCOUNT": "Already have an account?",
+      "LOGIN_LINK": "Login"
+    },
+    "MESSAGES": {
+      "ALL_FIELDS_REQUIRED": "All registration fields are required.",
+      "EMAIL_EXISTS": "This email is already registered.",
+      "REMOTE_SAVE_FAILED": "Remote save failed ({{status}}).",
+      "REMOTE_SAVE_NETWORK_ERROR": "Remote save failed (network error).",
+      "REMOTE_SYNC_DISABLED": "Remote auth sync is disabled until MockAPI /Auth resource is available.",
+      "REGISTRATION_SUCCESS_LOCAL": "Registration successful locally. {{warning}} Check MockAPI resource path: /Auth.",
+      "REGISTRATION_SUCCESS": "Registration successful.",
+      "LOGIN_ADMIN": "Logged in as admin.",
+      "INVALID_CREDENTIALS": "Invalid email or password.",
+      "LOGIN_SUCCESS": "Logged in."
+    }
+  }
+}

@@ -1,0 +1,122 @@
+<div class="admin-wrap">
+    <h1>{{ 'ADMIN.TITLE' | translate }}</h1>
+
+    <div class="admin-layout">
+        <aside class="left-panel">
+            <section class="form">
+                <h2>@if (editing) { {{ 'ADMIN.EDIT_PRODUCT' | translate }} } @else { {{ 'ADMIN.ADD_PRODUCT' | translate
+                    }} }</h2>
+                <label>
+                    {{ 'ADMIN.TITLE_LABEL' | translate }} *
+                    <input [(ngModel)]="title" required />
+                </label>
+                <label>
+                    {{ 'ADMIN.BRAND_LABEL' | translate }} *
+                    <input [(ngModel)]="brand" list="brands" required />
+                    <datalist id="brands">
+                        <option *ngFor="let b of brands" [value]="b">
+                    </datalist>
+                </label>
+                <label>
+                    {{ 'ADMIN.PRICE_LABEL' | translate }} *
+                    <input type="number" [(ngModel)]="price" required min="0.01" step="0.01" />
+                </label>
+                <label>
+                    {{ 'ADMIN.CURRENCY_LABEL' | translate }}
+                    <input [(ngModel)]="currency" readonly />
+                </label>
+                <label>
+                    {{ 'ADMIN.STOCK_LABEL' | translate }} *
+                    <input type="number" [(ngModel)]="stock" required min="0" />
+                </label>
+                <label>
+                    {{ 'ADMIN.CATEGORY_LABEL' | translate }} *
+                    <input [(ngModel)]="categoryName" list="categories" required />
+                    <datalist id="categories">
+                        <option *ngFor="let c of categories" [value]="c">
+                    </datalist>
+                </label>
+                <label>
+                    {{ 'ADMIN.THUMBNAIL_LABEL' | translate }}
+                    <input [(ngModel)]="thumbnail" />
+                </label>
+                <label>
+                    {{ 'ADMIN.DESCRIPTION_LABEL' | translate }}
+                    <textarea [(ngModel)]="description"></textarea>
+                </label>
+
+                <div class="actions">
+                    <button class="btn" (click)="save()">{{ 'ADMIN.SAVE' | translate }}</button>
+                    <button class="btn secondary" (click)="startAdd()">{{ 'ADMIN.CLEAR' | translate }}</button>
+                </div>
+            </section>
+        </aside>
+
+        <main class="right-panel">
+            <section class="list">
+                <h2>{{ 'ADMIN.PRODUCTS' | translate }}</h2>
+                @if (loading) {
+                <p>{{ 'ADMIN.LOADING_PRODUCTS' | translate }}</p>
+                } @else if (errorMessage) {
+                <p>{{ errorMessage }}</p>
+                } @else {
+                <div class="cards">
+                    @for (p of products; track p._id) {
+                    <article class="card">
+                        <img [src]="p.thumbnail" [alt]="p.title" />
+                        <div class="body">
+                            <strong>{{ p.title }}</strong>
+                            <p>{{ p.brand }} — {{ p.price.current }} {{ p.price.currency }}</p>
+                            <div class="actions">
+                                <button class="btn" (click)="edit(p)">{{ 'ADMIN.EDIT' | translate }}</button>
+                                <button class="btn danger" (click)="remove(p._id)">{{ 'ADMIN.DELETE' | translate
+                                    }}</button>
+                            </div>
+                        </div>
+                    </article>
+                    }
+                </div>
+                }
+            </section>
+
+            <section class="list">
+                <h2>{{ 'ADMIN.REVIEWS' | translate }}</h2>
+                <div class="reviews">
+                    @for (r of reviews(); track r.id) {
+                    <article class="review" (click)="goToProduct(r.productId)">
+                        <div class="body">
+                            <strong>{{ r.userEmail }} on {{ getProductTitle(r.productId) }}</strong>
+                            <p>{{ 'ADMIN.RATING' | translate }}: {{ r.rating }}/5</p>
+                            <p>{{ r.comment }}</p>
+                            <p>{{ r.createdAt }}</p>
+                            <div class="actions">
+                                <button class="btn danger" (click)="$event.stopPropagation(); removeReview(r.id!)">{{
+                                    'ADMIN.DELETE' | translate }}</button>
+                            </div>
+                        </div>
+                    </article>
+                    }
+                </div>
+            </section>
+
+            <section class="list">
+                <h2>{{ 'ADMIN.HERO_IMAGES' | translate }}</h2>
+                <label>
+                    {{ 'ADMIN.IMAGE_1_URL' | translate }}
+                    <input [(ngModel)]="heroImage1" />
+                </label>
+                <label>
+                    {{ 'ADMIN.IMAGE_2_URL' | translate }}
+                    <input [(ngModel)]="heroImage2" />
+                </label>
+                <label>
+                    {{ 'ADMIN.IMAGE_3_URL' | translate }}
+                    <input [(ngModel)]="heroImage3" />
+                </label>
+                <div class="actions">
+                    <button class="btn" (click)="saveHero()">{{ 'ADMIN.SAVE_HERO' | translate }}</button>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>

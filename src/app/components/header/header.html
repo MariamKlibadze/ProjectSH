@@ -1,0 +1,82 @@
+<nav class="navigation">
+    <a routerLink="/mainpage" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ 'NAV.HOME' |
+        translate }}</a>
+    <a routerLink="/favorites" routerLinkActive="active">{{ 'NAV.FAVORITES' | translate }}
+        @if (favoritesCount() > 0) {
+        <span class="badge heart-badge">{{ favoritesCount() }}</span>
+        }
+    </a>
+    <a routerLink="/cart">{{ 'NAV.CART' | translate }}
+        @if (cartCount() > 0) {
+        <span class="badge">{{ cartCount() }}</span>
+        }
+    </a>
+    @if (auth.isAdmin()) {
+    <a routerLink="/admin" routerLinkActive="active">{{ 'NAV.ADMIN' | translate }}</a>
+    }
+    @if (!auth.isLoggedIn()) {
+    <a routerLink="/login">{{ 'NAV.LOGIN' | translate }}</a>
+    } @else {
+    <span>{{ auth.currentUserName() || auth.currentUserEmail() }}</span>
+    <a href="" (click)="$event.preventDefault(); auth.logout()">{{ 'NAV.LOGOUT' | translate }}</a>
+    }
+    <select class="lang-select" [value]="currentLang" (change)="switchLanguage($any($event.target).value)">
+        <option value="en">{{ 'LANGUAGE.ENGLISH' | translate }}</option>
+        <option value="ka">{{ 'LANGUAGE.GEORGIAN' | translate }}</option>
+    </select>
+
+    <!-- Night Mode Toggle Button -->
+    <button class="theme-toggle-btn" (click)="toggleTheme()"
+        [attr.aria-label]="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'">
+        <span class="theme-icon">{{ isDarkMode ? '☀️' : '🌙' }}</span>
+    </button>
+
+    <!-- Burger Menu Button -->
+    <button class="burger-menu-btn" (click)="toggleMobileMenu()" [class.active]="isMobileMenuOpen">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" [class.open]="isMobileMenuOpen">
+    <div class="mobile-menu-content">
+        <a routerLink="/mainpage" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+            (click)="closeMobileMenu()">{{ 'NAV.HOME' | translate }}</a>
+        <a routerLink="/favorites" routerLinkActive="active" (click)="closeMobileMenu()">{{ 'NAV.FAVORITES' | translate
+            }}
+            @if (favoritesCount() > 0) {
+            <span class="badge heart-badge">{{ favoritesCount() }}</span>
+            }
+        </a>
+        <a routerLink="/cart" (click)="closeMobileMenu()">{{ 'NAV.CART' | translate }}
+            @if (cartCount() > 0) {
+            <span class="badge">{{ cartCount() }}</span>
+            }
+        </a>
+        @if (auth.isAdmin()) {
+        <a routerLink="/admin" routerLinkActive="active" (click)="closeMobileMenu()">{{ 'NAV.ADMIN' | translate }}</a>
+        }
+        @if (!auth.isLoggedIn()) {
+        <a routerLink="/login" (click)="closeMobileMenu()">{{ 'NAV.LOGIN' | translate }}</a>
+        } @else {
+        <div class="mobile-user-info">
+            <span>{{ auth.currentUserName() || auth.currentUserEmail() }}</span>
+            <a href="" (click)="$event.preventDefault(); auth.logout(); closeMobileMenu()">{{ 'NAV.LOGOUT' | translate
+                }}</a>
+        </div>
+        }
+        <select class="lang-select mobile-lang-select" [value]="currentLang"
+            (change)="switchLanguage($any($event.target).value)">
+            <option value="en">{{ 'LANGUAGE.ENGLISH' | translate }}</option>
+            <option value="ka">{{ 'LANGUAGE.GEORGIAN' | translate }}</option>
+        </select>
+        <button class="theme-toggle-btn mobile-theme-toggle" (click)="toggleTheme()"
+            [attr.aria-label]="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'">
+            <span class="theme-icon">{{ isDarkMode ? '☀️' : '🌙' }}</span>
+            <span class="theme-text">{{ isDarkMode ? ('THEME.LIGHT_MODE' | translate) : ('THEME.DARK_MODE' | translate)
+                }}</span>
+        </button>
+    </div>
+</div>

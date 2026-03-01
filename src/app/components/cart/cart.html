@@ -1,0 +1,51 @@
+@if (items().length === 0) {
+<p>{{ 'CART.EMPTY' | translate }}</p>
+} @else {
+<div class="cart-horizontal-layout">
+  <!-- Left side: Products -->
+  <div class="products-section">
+    <h2>{{ 'CART.PRODUCTS' | translate }}</h2>
+    @for (item of items(); track item.product._id) {
+    <article class="product-horizontal-card">
+      <div class="product-image">
+        <img [src]="item.product.thumbnail" [alt]="item.product.title" />
+           <h3 class="product-title">{{ item.product.title }}</h3>
+      </div>
+
+      <div class="product-details">
+     
+        <p class="product-price">{{ item.product.price.current }} {{ item.product.price.currency }}</p>
+
+        <div class="quantity-info">
+          <p class="quantity-left">{{ 'CART.LEFT_IN_STOCK' | translate }}: {{ item.product.stock - item.quantity }}</p>
+        </div>
+
+        <div class="quantity-controls">
+          <button class="btn small" (click)="decrement(item.product._id)">-</button>
+          <span class="quantity-display">{{ item.quantity }}</span>
+          <button class="btn small" (click)="increment(item.product._id)"
+            [disabled]="item.quantity >= item.product.stock">+</button>
+          <button class="btn remove-btn" (click)="remove(item.product._id)">{{ 'CART.REMOVE' | translate }}</button>
+        </div>
+      </div>
+    </article>
+    }
+  </div>
+
+  <!-- Right side: Checkout -->
+  <div class="checkout-section">
+    <div class="checkout-summary">
+      <h3>{{ 'CART.CHECKOUT_SUMMARY' | translate }}</h3>
+      <div class="summary-item">
+        <span>{{ 'CART.TOTAL_ITEMS' | translate }}:</span>
+        <span>{{ totalItems() }}</span>
+      </div>
+      <div class="summary-item total">
+        <span>{{ 'CART.TOTAL_PRICE' | translate }}:</span>
+        <span>{{ totalPrice() }} {{ currency() }}</span>
+      </div>
+      <button class="btn checkout-btn" (click)="checkout()">{{ 'CART.PROCEED_CHECKOUT' | translate }}</button>
+    </div>
+  </div>
+</div>
+}

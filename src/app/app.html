@@ -1,0 +1,17 @@
+<!-- app.html - Root template for the Angular application -->
+<!-- Conditionally renders header and footer based on current route -->
+
+<!-- Show header only when shell is visible (not on welcome page) -->
+@if (showShell()) {
+<app-header></app-header>
+}
+
+<!-- Main content area where routed components are displayed -->
+<main class="app-main">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Show footer only when shell is visible (not on welcome page) -->
+@if (showShell()) {
+<app-footer></app-footer>
+}

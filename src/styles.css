@@ -1,0 +1,74 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* CSS Variables for Light Theme */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --header-bg: linear-gradient(135deg, #ffffff, #f9f9f9, #f0f0f0);
+  --header-text: #2e7d32;
+  --card-bg: #ffffff;
+  --border-color: #e0e0e0;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --link-color: #2e7d32;
+  --link-hover: #4caf50;
+  --button-bg: rgba(76, 175, 80, 0.1);
+  --button-border: #4caf50;
+  --input-bg: #ffffff;
+  --input-border: #cccccc;
+  --remove-btn: #f44336;
+  --remove-btn-hover: #d32f2f;
+  --disabled-bg: #cccccc;
+  --card-text-color: #2e7d32;
+}
+
+/* Dark Theme Variables */
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --header-bg: linear-gradient(135deg, #2d2d2d, #252525, #1f1f1f);
+  --header-text: #81c784;
+  --card-bg: #2d2d2d;
+  --border-color: #404040;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --link-color: #81c784;
+  --link-hover: #a5d6a7;
+  --button-bg: rgba(129, 199, 132, 0.1);
+  --button-border: #81c784;
+  --input-bg: #333333;
+  --input-border: #555555;
+  --remove-btn: #f44336;
+  --remove-btn-hover: #d32f2f;
+  --disabled-bg: #666666;
+  --card-text-color: #ffffff;
+}
+
+/* Apply CSS Variables */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 12px;
+  }
+}

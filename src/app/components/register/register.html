@@ -1,0 +1,50 @@
+<section class="auth-card">
+  <h1>{{ 'AUTH.REGISTER.TITLE' | translate }}</h1>
+
+  <form class="auth-form" (ngSubmit)="submit()">
+    <label>
+      {{ 'AUTH.REGISTER.NAME' | translate }}
+      <input type="text" [(ngModel)]="name" name="name" required />
+    </label>
+
+    <label>
+      {{ 'AUTH.REGISTER.SURNAME' | translate }}
+      <input type="text" [(ngModel)]="surname" name="surname" required />
+    </label>
+
+    <label>
+      {{ 'AUTH.REGISTER.GENDER' | translate }}
+      <select [(ngModel)]="gender" name="gender" required>
+        <option value="" disabled>{{ 'AUTH.REGISTER.SELECT_GENDER' | translate }}</option>
+        <option value="female">{{ 'AUTH.REGISTER.FEMALE' | translate }}</option>
+        <option value="male">{{ 'AUTH.REGISTER.MALE' | translate }}</option>
+        <option value="other">{{ 'AUTH.REGISTER.OTHER' | translate }}</option>
+      </select>
+    </label>
+
+    <label>
+      {{ 'AUTH.REGISTER.DATE_OF_BIRTH' | translate }}
+      <input type="date" [(ngModel)]="dateOfBirth" name="dateOfBirth" required />
+    </label>
+
+    <label>
+      {{ 'AUTH.REGISTER.EMAIL' | translate }}
+      <input type="email" [(ngModel)]="email" name="email" required />
+    </label>
+
+    <label>
+      {{ 'AUTH.REGISTER.PASSWORD' | translate }}
+      <input type="password" [(ngModel)]="password" name="password" required />
+    </label>
+
+    <button type="submit" [disabled]="submitting">{{ submitting ? ('AUTH.REGISTER.CREATING' | translate) :
+      ('AUTH.REGISTER.BUTTON' | translate) }}</button>
+  </form>
+
+  @if (message) {
+  <p class="message">{{ message }}</p>
+  }
+
+  <p>{{ 'AUTH.REGISTER.HAVE_ACCOUNT' | translate }} <a routerLink="/login">{{ 'AUTH.REGISTER.LOGIN_LINK' | translate
+      }}</a></p>
+</section>

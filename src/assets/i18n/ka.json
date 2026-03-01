@@ -1,0 +1,159 @@
+{
+  "NAV": {
+    "HOME": "მთავარი გვერდი",
+    "FAVORITES": "ფავორიტები",
+    "CART": "კალათა",
+    "ADMIN": "ადმინი",
+    "LOGIN": "შესვლა",
+    "LOGOUT": "გასვლა"
+  },
+  "THEME": {
+    "LIGHT_MODE": "დღის რეჟიმი",
+    "DARK_MODE": "ღამის რეჟიმი"
+  },
+  "FILTERS": {
+    "SEARCH": "ძიება",
+    "CATEGORY": "კატეგორია",
+    "CATEGORIES": "კატეგორიები",
+    "BRAND": "ბრენდი",
+    "BRANDS": "ბრენდები",
+    "MAX_PRICE": "მაქს. ფასი",
+    "MIN_RATING": "მინ. რეიტინგი",
+    "ANY_RATING": "ნებისმიერი რეიტინგი",
+    "STARS": "{{count}}+ ვარსკვლავი",
+    "CLEAR_FILTERS": "ფილტრების გასუფთავება"
+  },
+  "MESSAGES": {
+    "NO_PRODUCTS": "პროდუქტები არ ემთხვევა ფილტრებს.",
+    "LOADING": "იტვირთება...",
+    "LOGIN_PROMPT_START": "გთხოვთ",
+    "LOGIN_PROMPT_LOGIN": "შედით სისტემაში",
+    "LOGIN_PROMPT_OR": "ან",
+    "LOGIN_PROMPT_REGISTER": "დარეგისტრირდით",
+    "LOGIN_PROMPT_END": ", რომ დაამატოთ პროდუქტები კალათაში ან ფავორიტებში.",
+    "AUTH_MESSAGE": "გთხოვთ შედით სისტემაში ან დარეგისტრირდით, რომ დაამატოთ პროდუქტები კალათაში."
+  },
+  "PRODUCT": {
+    "IN_STOCK": "მარაგშია",
+    "SELECTED": "არჩეული",
+    "LEFT": "მარაგშია",
+    "ADD_TO_CART": "კალათაში დამატება",
+    "REMOVE_FROM_CART": "კალათიდან ამოღება",
+    "OUT_OF_STOCK": "არ არის მარაგში",
+    "ADD_TO_FAVORITES": "ფავორიტებში დამატება",
+    "REMOVE_FROM_FAVORITES": "ფავორიტებიდან ამოღება",
+    "EDIT": "რედაქტირება",
+    "RATINGS": "შეფასებები"
+  },
+  "PRODUCT_DETAILS": {
+    "BACK_TO_PRODUCTS": "← დაბრუნება პროდუქტებზე",
+    "LOADING": "პროდუქტის დეტალების ჩატვირთვა...",
+    "INVALID_ID": "არასწორი პროდუქტის ID.",
+    "DESCRIPTION": "აღწერა",
+    "REVIEWS_TITLE": "შეფასებები",
+    "NO_REVIEWS": "შეფასებები ჯერ არ არის. იყავით პირველი, ვინც შეაფასებთ ამ პროდუქტს.",
+    "DELETE_REVIEW": "წაშლა",
+    "YOUR_RATING": "თქვენი შეფასება",
+    "YOUR_REVIEW": "თქვენი შეფასება",
+    "REVIEW_PLACEHOLDER": "დაწერეთ თქვენი შეფასება",
+    "SUBMIT_REVIEW": "შეფასების გაგზავნა",
+    "LOGIN_TO_REVIEW": "გთხოვთ შედით სისტემაში შეფასება და რეიტინგის დასამატებლად.",
+    "REVIEW_SUBMITTED": "შეფასება წარმატებით გაიგზავნა!",
+    "REVIEW_DELETED": "შეფასება წარმატებით წაიშალა!"
+  },
+  "CART": {
+    "EMPTY": "თქვენი კალათა ცარიელია",
+    "REMOVE": "ამოღება",
+    "YOU_CHOSE": "თქვენ აირჩიეთ",
+    "LEFT_IN_STOCK": "მარაგშია",
+    "PRODUCTS": "თქვენი კალათის პროდუქტები",
+    "CHECKOUT_SUMMARY": "კალათაში",
+    "TOTAL_ITEMS": "პროდუქტების რაოდენობა",
+    "TOTAL_PRICE": "სულ ფასი",
+    "PROCEED_CHECKOUT": "გაგრძელება შეკვეთისთვის"
+  },
+  "FAVORITES": {
+    "EMPTY": "ჯერ არ არის ფავორიტები",
+    "REMOVE": "ფავორიტებიდან ამოღება"
+  },
+  "WELCOME": {
+    "DISCOUNT": "ფასდაკლება პირველ შეკვეთაზე! გამოიყენეთ კოდი 20%OFF პირველი შეკვეთისთვის ფასდაკლების მისაღებად",
+    "ENTER": "შესვლა"
+  },
+  "FOOTER": {
+    "ABOUT": "ჩვენს შესახებ",
+    "ABOUT_TEXT": "ჩვენ ვყიდით ბედნიერებას არა მხოლოდ პროდუქტებს, არამედ გამოცდილებებს, რომლებიც სიხარულს მოუტანენ ჩვენს მომხმარებლებს.",
+    "COPYRIGHT": "2026 ყველა უფლება დაცულია",
+    "CONTACT": "კონტაქტი"
+  },
+  "LANGUAGE": {
+    "SELECT": "ენის არჩევა",
+    "ENGLISH": "ENGLISH",
+    "GEORGIAN": "ქართული"
+  },
+  "ADMIN": {
+    "TITLE": "ადმინი — პროდუქტების მართვა",
+    "ADD_PRODUCT": "პროდუქტის დამატება",
+    "EDIT_PRODUCT": "პროდუქტის რედაქტირება",
+    "TITLE_LABEL": "სათაური",
+    "BRAND_LABEL": "ბრენდი",
+    "PRICE_LABEL": "ფასი",
+    "CURRENCY_LABEL": "ვალუტა",
+    "STOCK_LABEL": "მარაგი",
+    "CATEGORY_LABEL": "კატეგორია",
+    "THUMBNAIL_LABEL": "მინიატურის URL",
+    "DESCRIPTION_LABEL": "აღწერა",
+    "SAVE": "შენახვა",
+    "CLEAR": "გასუფთავება",
+    "PRODUCTS": "პროდუქტები",
+    "LOADING_PRODUCTS": "პროდუქტების ჩატვირთვა...",
+    "EDIT": "რედაქტირება",
+    "DELETE": "წაშლა",
+    "REVIEWS": "შეფასებები",
+    "RATING": "შეფასება",
+    "HERO_IMAGES": "მთავარი სურათები",
+    "IMAGE_1_URL": "სურათი 1 URL",
+    "IMAGE_2_URL": "სურათი 2 URL",
+    "IMAGE_3_URL": "სურათი 3 URL",
+    "SAVE_HERO": "მთავარი სურათების შენახვა"
+  },
+  "AUTH": {
+    "LOGIN": {
+      "TITLE": "შესვლა",
+      "EMAIL": "ელ.ფოსტა",
+      "PASSWORD": "პაროლი",
+      "BUTTON": "შესვლა",
+      "NO_ACCOUNT": "არ გაქვთ ანგარიში?",
+      "REGISTER_LINK": "რეგისტრაცია"
+    },
+    "REGISTER": {
+      "TITLE": "რეგისტრაცია",
+      "NAME": "სახელი",
+      "SURNAME": "გვარი",
+      "GENDER": "სქესი",
+      "SELECT_GENDER": "აირჩიეთ სქესი",
+      "FEMALE": "ქალი",
+      "MALE": "კაცი",
+      "OTHER": "სხვა",
+      "DATE_OF_BIRTH": "დაბადების თარიღი",
+      "EMAIL": "ელ.ფოსტა",
+      "PASSWORD": "პაროლი",
+      "BUTTON": "ანგარიშის შექმნა",
+      "CREATING": "ქმნის...",
+      "HAVE_ACCOUNT": "უკვე გაქვთ ანგარიში?",
+      "LOGIN_LINK": "შესვლა"
+    },
+    "MESSAGES": {
+      "ALL_FIELDS_REQUIRED": "რეგისტრაციის ყველა ველი აუცილებელია.",
+      "EMAIL_EXISTS": "ეს ელ.ფოსტა უკვე რეგისტრირებულია.",
+      "REMOTE_SAVE_FAILED": "დისტანციური შენახვა ვერ მოხერხდა ({{status}}).",
+      "REMOTE_SAVE_NETWORK_ERROR": "დისტანციური შენახვა ვერ მოხერხდა (ქსელის შეცდომა).",
+      "REMOTE_SYNC_DISABLED": "დისტანციური ავტორიზაციის სინქრონიზაცია გამორთულია MockAPI /Auth რესურსის ხელმისაწვდომობამდე.",
+      "REGISTRATION_SUCCESS_LOCAL": "რეგისტრაცია წარმატებით დასრულდა ლოკალურად. {{warning}} შეამოწმეთ MockAPI რესურსის გზა: /Auth.",
+      "REGISTRATION_SUCCESS": "რეგისტრაცია წარმატებით დასრულდა.",
+      "LOGIN_ADMIN": "შესული ხართ ადმინისტრატორად.",
+      "INVALID_CREDENTIALS": "არასწორი ელ.ფოსტა ან პაროლი.",
+      "LOGIN_SUCCESS": "შესული ხართ."
+    }
+  }
+}
