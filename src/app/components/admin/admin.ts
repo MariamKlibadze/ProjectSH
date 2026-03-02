@@ -36,10 +36,6 @@ export class AdminComponent implements OnInit {
     thumbnail = '';
     description = '';
 
-    // hero images
-    heroImage1 = '';
-    heroImage2 = '';
-    heroImage3 = '';
 
     constructor(private productsApi: ProductsService, private reviewsApi: ReviewsService, private auth: AuthService, private router: Router, private route: ActivatedRoute) {
         effect(() => {
@@ -54,7 +50,6 @@ export class AdminComponent implements OnInit {
             this.editId = params['edit'] || null;
         });
         this.load();
-        this.loadHeroImages();
     }
 
     load(): void {
@@ -199,27 +194,4 @@ export class AdminComponent implements OnInit {
         }
     }
 
-    private loadHeroImages(): void {
-        const stored = localStorage.getItem('heroImages');
-        if (stored) {
-            try {
-                const imgs = JSON.parse(stored);
-                if (Array.isArray(imgs) && imgs.length >= 3) {
-                    this.heroImage1 = imgs[0];
-                    this.heroImage2 = imgs[1];
-                    this.heroImage3 = imgs[2];
-                }
-            } catch { }
-        } else {
-            this.heroImage1 = 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80';
-            this.heroImage2 = 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80';
-            this.heroImage3 = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80';
-        }
-    }
-
-    saveHero(): void {
-        const imgs = [this.heroImage1, this.heroImage2, this.heroImage3];
-        localStorage.setItem('heroImages', JSON.stringify(imgs));
-        alert('Hero images saved!');
-    }
 }

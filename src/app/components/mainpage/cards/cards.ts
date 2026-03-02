@@ -31,9 +31,9 @@ export class CardsComponent implements OnInit, OnDestroy {
   pageSize = 120;
 
   heroImages = signal<string[]>([
-    '/assets/hero1.jpg',
-    '/assets/hero2.jpg',
-    '/assets/hero3.jpg'
+    'assets/hero1.jpg',
+    'assets/hero2.jpg',
+    'assets/hero3.jpg'
   ]);
   heroSlideIndex = signal(0);
 
