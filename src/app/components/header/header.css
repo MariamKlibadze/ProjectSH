@@ -67,12 +67,6 @@ button {
     width: max-content;
 }
 
-.theme-toggle-btn {
-    display: flex;
-    align-items: center;
-
-
-}
 
 .navigation {
     display: flex;
@@ -115,7 +109,7 @@ button {
     background: var(--button-bg);
     color: var(--header-text);
     border: 1px solid var(--button-border);
-    border-radius: 8px;
+    border-radius: 50px;
     padding: 0.3rem 0.6rem;
     font-size: 0.9rem;
     font-weight: 500;
@@ -131,7 +125,7 @@ button {
     background: var(--button-bg);
     color: var(--header-text);
     border: 1px solid var(--button-border);
-    border-radius: 8px;
+    border-radius: 50px;
     padding: 0.3rem 0.6rem;
     font-size: 0.9rem;
     font-weight: 500;
