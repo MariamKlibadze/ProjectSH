@@ -20,6 +20,8 @@
     <span class="user-name" (click)="openProfileModal()">{{ auth.currentUserName() || auth.currentUserEmail() }}</span>
     <a href="" (click)="$event.preventDefault(); auth.logout()">{{ 'NAV.LOGOUT' | translate }}</a>
     }
+
+    <div class="header-right">
     <select class="lang-select" [value]="currentLang" (change)="switchLanguage($any($event.target).value)">
         <option value="en">{{ 'LANGUAGE.ENGLISH' | translate }}</option>
         <option value="ka">{{ 'LANGUAGE.GEORGIAN' | translate }}</option>
@@ -37,6 +39,8 @@
         <span></span>
         <span></span>
     </button>
+
+    </div>
 </nav>
 
 <!-- Mobile Menu -->

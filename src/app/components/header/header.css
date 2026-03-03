@@ -60,6 +60,20 @@ button {
     cursor: pointer;
 }
 
+
+.header-right {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: max-content;
+}
+
+.theme-toggle-btn {
+    display: flex;
+    align-items: center;
+
+
+}
+
 .navigation {
     display: flex;
     justify-content: space-around;
@@ -281,6 +295,7 @@ button {
         cursor: pointer;
         padding: 0;
     }
+
 
     .burger-menu-btn span {
         display: block;

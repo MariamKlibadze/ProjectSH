@@ -59,7 +59,7 @@
   border: 1px solid color-mix(in srgb, var(--button-border) 40%, transparent);
   border-radius: 18px;
   padding: 18px;
-  background: #ffffff;
+  background: var(--card-bg);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -219,7 +219,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #333;
+  color: var(--text-color);
   z-index: 10;
   transition: all 0.3s ease;
 }
@@ -309,7 +309,7 @@
   --accent-color: #4caf50;
   position: relative;
   width: 240px;
-  background: white;
+  background: var(--card-bg);
   border-radius: 1rem;
   padding: 0.3rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 50px 30px -20px;
@@ -343,7 +343,7 @@
   position: absolute;
   right: 0.7rem;
   bottom: -1rem;
-  background: white;
+  background: var(--card-bg);
   color: var(--accent-color);
   font-weight: 900;
   font-size: 0.9rem;
@@ -567,7 +567,7 @@
 }
 
 .modal-content {
-  background: white;
+  background: var(--card-bg);
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   max-width: 400px;
@@ -581,12 +581,12 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .modal-header h3 {
   margin: 0;
-  color: #333;
+  color: var(--text-color);
   font-size: 1.25rem;
   font-weight: 600;
 }
@@ -596,7 +596,7 @@
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #666;
+  color: color-mix(in srgb, var(--text-color) 60%, transparent);
   padding: 0;
   width: 30px;
   height: 30px;
@@ -608,8 +608,8 @@
 }
 
 .modal-close:hover {
-  background: #f0f0f0;
-  color: #333;
+  background: var(--disabled-bg);
+  color: var(--text-color);
 }
 
 .modal-body {
@@ -618,7 +618,7 @@
 
 .modal-body p {
   margin: 0;
-  color: #666;
+  color: color-mix(in srgb, var(--text-color) 60%, transparent);
   line-height: 1.5;
 }
 
@@ -627,7 +627,7 @@
   justify-content: flex-end;
   gap: 0.75rem;
   padding: 1rem 1.5rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--border-color);
 }
 
 .btn {
