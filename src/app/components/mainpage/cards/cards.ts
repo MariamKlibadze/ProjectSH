@@ -253,7 +253,7 @@ export class CardsComponent implements OnInit, OnDestroy {
         const ratingB = this.averageRating(b);
         const hasRatingA = ratingA > 0;
         const hasRatingB = ratingB > 0;
-        
+
         switch (sortOption) {
           case 'price-asc':
             return a.price.current - b.price.current;
@@ -264,7 +264,7 @@ export class CardsComponent implements OnInit, OnDestroy {
             // Prioritize products with ratings over those without
             if (hasRatingA && !hasRatingB) return -1; // A has rating, B doesn't - A comes first
             if (!hasRatingA && hasRatingB) return 1;  // B has rating, A doesn't - B comes first
-            
+
             // Both have ratings or both don't - sort by rating value
             if (sortOption === 'rating-desc') {
               return ratingB - ratingA; // High to low
