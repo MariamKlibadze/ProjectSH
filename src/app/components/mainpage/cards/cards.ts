@@ -170,7 +170,7 @@ export class CardsComponent implements OnInit, OnDestroy {
 
   addToFavorites(p: Product) {
     if (!this.auth.isLoggedIn()) {
-      this.authMessage = this.translate.instant('MESSAGES.LOGIN_PROMPT');
+      this.showLoginModal = true;
       return;
     }
     this.authMessage = '';
