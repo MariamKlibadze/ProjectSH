@@ -143,6 +143,11 @@ export class CardsComponent implements OnInit, OnDestroy {
   }
 
   averageRating(product: Product): number {
+    // If product has no reviews, return 0 rating
+    if (this.ratingCount(product._id) === 0) {
+      return 0;
+    }
+    
     const fallbackRating = this.normalizeRating(product.rating);
     const average = this.reviewsService.averageRating(product._id, fallbackRating);
     return this.normalizeRating(average);
