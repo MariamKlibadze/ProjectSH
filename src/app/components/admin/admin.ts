@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, effect } from '@angular/core';
+import { Component, OnInit, computed, effect, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -40,14 +40,16 @@ export class AdminComponent implements OnInit {
     description = '';
 
 
-    constructor(private productsApi: ProductsService, private reviewsApi: ReviewsService, private auth: AuthService, private router: Router, private route: ActivatedRoute, private translate: TranslateService) {
+    constructor(private productsApi: ProductsService, private reviewsApi: ReviewsService, private auth: AuthService, private router: Router, private route: ActivatedRoute, private translate: TranslateService, private cdr: ChangeDetectorRef) {
     }
 
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
             this.editId = params['edit'] || null;
         });
-        this.load().subscribe();
+        this.load().subscribe(() => {
+            this.cdr.detectChanges();
+        });
     }
 
     load(): Observable<any> {
@@ -61,15 +63,20 @@ export class AdminComponent implements OnInit {
                     this.loading = false;
                     this.updateDropdowns();
                     this.checkEdit();
+                    this.cdr.detectChanges(); // Trigger change detection
                     if (this.products.length === 0) {
                         this.productsApi.getAllUnpaged().subscribe({
                             next: (products) => {
                                 this.products = products;
+                                this.loading = false;
                                 this.updateDropdowns();
                                 this.checkEdit();
+                                this.cdr.detectChanges(); // Trigger change detection
                             },
                             error: () => {
+                                this.loading = false;
                                 this.errorMessage = 'Failed to load products.';
+                                this.cdr.detectChanges();
                             }
                         });
                     }
@@ -77,6 +84,7 @@ export class AdminComponent implements OnInit {
                 error: () => {
                     this.loading = false;
                     this.errorMessage = 'Failed to load products.';
+                    this.cdr.detectChanges();
                 }
             })
         );
@@ -148,12 +156,14 @@ export class AdminComponent implements OnInit {
                             this.successMessage = 'Product updated successfully!';
                             this.startAdd();
                             setTimeout(() => this.successMessage = '', 3000);
+                            this.cdr.detectChanges();
                         });
                     }, 500); // Small delay to allow API to update
                 },
                 error: (error) => {
                     console.error('Error updating product:', error);
                     this.errorMessage = this.translate.instant('ADMIN.UPDATE_FAILED');
+                    this.cdr.detectChanges();
                 }
             });
         } else {
@@ -164,19 +174,25 @@ export class AdminComponent implements OnInit {
                             this.successMessage = 'Product added successfully!';
                             this.startAdd();
                             setTimeout(() => this.successMessage = '', 3000);
+                            this.cdr.detectChanges();
                         });
                     }, 500);
                 },
                 error: (error) => {
                     console.error('Error adding product:', error);
                     this.errorMessage = this.translate.instant('ADMIN.ADD_FAILED');
+                    this.cdr.detectChanges();
                 }
             });
         }
     }
 
     remove(id: string): void {
-        this.productsApi.deleteProductRemote(id).subscribe(() => this.load().subscribe());
+        this.productsApi.deleteProductRemote(id).subscribe(() => {
+            this.load().subscribe(() => {
+                this.cdr.detectChanges();
+            });
+        });
     }
 
     removeReview(reviewId: string): void {

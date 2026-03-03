@@ -49,15 +49,16 @@
   gap: 20px;
   align-items: start;
   position: relative;
+  border-radius: 50px;
 }
 
-.layout.sidebar-closed {
+/* .layout.sidebar-closed {
   grid-template-columns: 1fr;
-}
+} */
 
 .sidebar {
   border: 1px solid color-mix(in srgb, var(--button-border) 40%, transparent);
-  border-radius: 18px;
+  border-radius: 50px;
   padding: 18px;
   background: var(--card-bg);
   display: flex;
@@ -81,7 +82,7 @@
   border-bottom: 1px solid color-mix(in srgb, var(--input-border) 60%, transparent);
 }
 
-.sidebar-close-btn {
+/* .sidebar-close-btn {
   align-self: flex-end;
   background: none;
   border: none;
@@ -91,16 +92,16 @@
   padding: 4px;
   border-radius: 4px;
   transition: background-color 0.2s ease;
-}
+} */
 
-.sidebar-close-btn:hover {
+/* .sidebar-close-btn:hover {
   background-color: color-mix(in srgb, var(--button-bg) 50%, transparent);
 }
 
 .sidebar-closed {
   position: absolute;
   left: -260px;
-}
+} */
 
 .field-label {
   font-size: 12px;
@@ -114,7 +115,7 @@
 .field {
   width: 100%;
   padding: 10px 12px;
-  border-radius: 11px;
+  border-radius: 50px;
   border: 1px solid var(--input-border);
   background: var(--input-bg);
   color: var(--text-color);
@@ -145,7 +146,7 @@
   margin-top: 12px;
   width: 100%;
   padding: 12px;
-  border-radius: 12px;
+  border-radius: 50px;
   background: linear-gradient(135deg, var(--link-color), var(--link-hover));
   color: white;
   border: 1px solid color-mix(in srgb, var(--link-color) 75%, black);
@@ -178,7 +179,7 @@
   position: relative;
   box-shadow: 0 6px 16px var(--shadow);
   margin-top: 20px;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.1s ease, box-shadow 0.3s ease;
 }
 
 .hero-slider-container {
@@ -310,9 +311,10 @@
   position: relative;
   width: 240px;
   background: var(--card-bg);
-  border-radius: 1rem;
+  border: 1px solid var(--accent-color);
+  border-radius: 1.7rem;
   padding: 0.3rem;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 50px 30px -20px;
+  box-shadow: rgba(235, 255, 231, 0.2) 0px 50px 30px -20px;
   transition: all 0.5s ease-in-out;
 }
 
@@ -320,7 +322,7 @@
   position: relative;
   width: 100%;
   height: 130px;
-  border-radius: 0.7rem;
+  border-radius: 1rem;
   border-top-right-radius: 4rem;
   margin-bottom: 1rem;
 }
@@ -603,7 +605,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 50px;
   transition: background 0.2s ease;
 }
 
@@ -638,6 +640,7 @@
   font-weight: 500;
   transition: background 0.2s ease;
   min-width: 80px;
+  border-radius: 50px;
 }
 
 .btn-secondary {

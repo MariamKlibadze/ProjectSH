@@ -12,10 +12,10 @@ p {
   text-align: center;
   font-size: 1.2rem;
   color: var(--text-color);
-  padding: 40px 20px;
+  padding: 10px 10px;
   background: var(--card-bg);
   border-radius: 12px;
-  margin: 20px;
+  margin: 10px;
   border: 2px solid var(--button-border);
 }
 
@@ -101,16 +101,17 @@ p {
   font-size: 13px;
   color: var(--link-color);
   font-weight: 500;
+  border-radius: 50px;
 }
 
 .btn {
   margin-top: auto;
-  padding: 17px 40px;
-  border-radius: 10px;
+  padding: 13px 30px;
+  border-radius: 50px;
   border: 0;
-  background-color: rgb(50, 168, 80);
+  background-color: rgb(177, 15, 91);
   letter-spacing: 1.5px;
-  font-size: 15px;
+  font-size: 13px;
   transition: all 0.3s ease;
   box-shadow: rgb(30, 120, 50) 0px 10px 0px 0px;
   color: hsl(0, 0%, 100%);
