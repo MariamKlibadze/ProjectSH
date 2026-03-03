@@ -1,6 +1,10 @@
 <div class="admin-wrap">
     <h1>{{ 'ADMIN.TITLE' | translate }}</h1>
 
+    @if (successMessage) {
+    <div class="success-message">{{ successMessage }}</div>
+    }
+
     <div class="admin-layout">
         <aside class="left-panel">
             <section class="form">

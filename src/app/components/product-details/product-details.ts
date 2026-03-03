@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize, Subscription } from 'rxjs';
 import { Product, ProductsService } from '../services/products.service';
 import { AuthService } from '../services/auth.service';
 import { Review, ReviewsService } from '../services/reviews.service';
+import { CartService } from '../services/cart.service';
+import { FavoritesService } from '../services/favorites.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslationService } from '../services/translation.service';
 
@@ -25,6 +27,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     submitMessage = '';
     newRating = 5;
     newComment = '';
+    showLoginModal = false;
 
     private routeSub = new Subscription();
     private loadSub = new Subscription();
@@ -32,8 +35,11 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
         private productsApi: ProductsService,
         private reviewsService: ReviewsService,
+        private cartService: CartService,
+        private favoritesService: FavoritesService,
         public auth: AuthService,
         private cdr: ChangeDetectorRef,
         private translate: TranslateService,
@@ -307,5 +313,38 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         this.translate.get('PRODUCT_DETAILS.REVIEW_DELETED').subscribe(msg => {
             this.submitMessage = msg;
         });
+    }
+
+    addToCart(product: Product): void {
+        if (!this.auth.isLoggedIn()) {
+            this.showLoginModal = true;
+            return;
+        }
+        this.cartService.add(product);
+    }
+
+    closeLoginModal(): void {
+        this.showLoginModal = false;
+    }
+
+    goToLogin(): void {
+        this.showLoginModal = false;
+        this.router.navigate(['/login']);
+    }
+
+    isFavorite(productId: string): boolean {
+        return this.favoritesService.isFavorite(productId);
+    }
+
+    toggleFavorite(product: Product): void {
+        if (!this.auth.isLoggedIn()) {
+            this.showLoginModal = true;
+            return;
+        }
+        if (this.isFavorite(product._id)) {
+            this.favoritesService.remove(product._id);
+        } else {
+            this.favoritesService.add(product);
+        }
     }
 }

@@ -8,12 +8,12 @@
     @for (item of items(); track item.product._id) {
     <article class="product-horizontal-card">
       <div class="product-image">
-        <img [src]="item.product.thumbnail" [alt]="item.product.title" />
-           <h3 class="product-title">{{ item.product.title }}</h3>
+        <img [src]="item.product.thumbnail" [alt]="item.product.title" routerLink="/product/{{item.product._id}}" />
+        <h3 class="product-title" routerLink="/product/{{item.product._id}}">{{ item.product.title }}</h3>
       </div>
 
       <div class="product-details">
-     
+
         <p class="product-price">{{ item.product.price.current }} {{ item.product.price.currency }}</p>
 
         <div class="quantity-info">
@@ -45,6 +45,113 @@
         <span>{{ totalPrice() }} {{ currency() }}</span>
       </div>
       <button class="btn checkout-btn" (click)="checkout()">{{ 'CART.PROCEED_CHECKOUT' | translate }}</button>
+      @if (errorMessage) {
+      <p class="error-message">{{ errorMessage }}</p>
+      }
+    </div>
+  </div>
+</div>
+}
+
+<!-- Checkout Modal -->
+@if (showCheckoutModal) {
+<div class="checkout-modal-overlay" (click)="closeCheckoutModal()">
+  <div class="checkout-modal-content" (click)="$event.stopPropagation()">
+    <div class="checkout-modal-header">
+      <div class="modal-icon">🛒</div>
+      <h2 class="modal-title">{{ 'CART.CHECKOUT_CONFIRMATION' | translate }}</h2>
+      <button class="modal-close" (click)="closeCheckoutModal()">×</button>
+    </div>
+
+    <div class="checkout-modal-body">
+      <div class="order-summary">
+        <h3 class="summary-title">{{ 'CART.ORDER_SUMMARY' | translate }}</h3>
+
+        <div class="order-items">
+          @for (item of items(); track item.product._id) {
+          <div class="order-item">
+            <div class="item-image">
+              <img [src]="item.product.thumbnail" [alt]="item.product.title" />
+            </div>
+            <div class="item-details">
+              <h4 class="item-title">{{ item.product.title }}</h4>
+              <div class="item-meta">
+                <span class="item-quantity">{{ item.quantity }} × {{ item.product.price.current }} {{
+                  item.product.price.currency }}</span>
+                <span class="item-subtotal">{{ (item.product.price.current * item.quantity) }} {{
+                  item.product.price.currency }}</span>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+
+        <div class="order-totals">
+          <div class="total-row">
+            <span class="total-label">{{ 'CART.TOTAL_ITEMS' | translate }}:</span>
+            <span class="total-value">{{ totalItems() }}</span>
+          </div>
+          <div class="total-row final-total">
+            <span class="total-label">{{ 'CART.TOTAL_PRICE' | translate }}:</span>
+            <span class="total-value">{{ totalPrice() }} {{ currency() }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-notice">
+        <div class="notice-icon">ℹ️</div>
+        <p class="notice-text">{{ 'CART.CHECKOUT_NOTICE' | translate }}</p>
+      </div>
+    </div>
+
+    <div class="checkout-modal-footer">
+      <button class="modal-btn modal-btn-secondary" (click)="closeCheckoutModal()">
+        {{ 'CART.CANCEL' | translate }}
+      </button>
+      <button class="modal-btn modal-btn-primary" (click)="confirmCheckout()">
+        <span class="btn-icon">✅</span>
+        {{ 'CART.CONFIRM_PURCHASE' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+}
+
+<!-- Confirmation Modal -->
+@if (showConfirmationModal) {
+<div class="confirmation-modal-overlay" (click)="closeConfirmationModal()">
+  <div class="confirmation-modal-content" (click)="$event.stopPropagation()">
+    <div class="confirmation-modal-header">
+      <div class="modal-icon success">✅</div>
+      <h2 class="modal-title">{{ 'CART.PURCHASE_SUCCESSFUL' | translate }}</h2>
+      <button class="modal-close" (click)="closeConfirmationModal()">×</button>
+    </div>
+
+    <div class="confirmation-modal-body">
+      <div class="success-message">
+        <div class="success-icon">🎉</div>
+        <h3 class="success-title">{{ 'CART.THANK_YOU' | translate }}</h3>
+        <p class="success-text">{{ 'CART.ORDER_PLACED' | translate }}</p>
+        <p class="success-details">{{ 'CART.ORDER_DETAILS' | translate }}</p>
+      </div>
+
+      <div class="order-info">
+        <div class="info-item">
+          <span class="info-label">{{ 'CART.ORDER_NUMBER' | translate }}:</span>
+          <span class="info-value">{{ currentOrderNumber }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">{{ 'CART.TOTAL_PAID' | translate }}:</span>
+          <span class="info-value">{{ totalPrice() }} {{ currency() }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="confirmation-modal-footer">
+      <button class="modal-btn modal-btn-primary" (click)="closeConfirmationModal()">
+        <span class="btn-icon">🏠</span>
+        {{ 'CART.CONTINUE_SHOPPING' | translate }}
+      </button>
     </div>
   </div>
 </div>

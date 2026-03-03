@@ -31,14 +31,20 @@
     "LOGIN_PROMPT_OR": "or",
     "LOGIN_PROMPT_REGISTER": "register",
     "LOGIN_PROMPT_END": "to add items to cart or favorites.",
-    "AUTH_MESSAGE": "Please login or register to add items to cart."
+    "AUTH_MESSAGE": "Please login or register to add items to cart.",
+    "LOGIN_REQUIRED_TITLE": "Login Required",
+    "LOGIN_REQUIRED_MESSAGE": "You need to be logged in to add items to your cart. Please login to continue.",
+    "CANCEL": "Cancel",
+    "LOGIN": "Login"
   },
   "PRODUCT": {
     "IN_STOCK": "In stock",
     "SELECTED": "Selected",
     "LEFT": "Left",
+    "STOCK_LEFT": "Stock left",
     "ADD_TO_CART": "Add to cart",
     "REMOVE_FROM_CART": "Remove from cart",
+    "REMOVE": "Remove",
     "OUT_OF_STOCK": "Out of stock",
     "ADD_TO_FAVORITES": "Add to favorites",
     "REMOVE_FROM_FAVORITES": "Remove from favorites",
@@ -52,6 +58,7 @@
     "DESCRIPTION": "Description",
     "REVIEWS_TITLE": "Reviews",
     "NO_REVIEWS": "No reviews yet. Be the first to review this product.",
+    "WRITE_REVIEW": "Write a Review",
     "DELETE_REVIEW": "Delete",
     "YOUR_RATING": "Your rating",
     "YOUR_REVIEW": "Your review",
@@ -70,7 +77,20 @@
     "CHECKOUT_SUMMARY": "Order Summary",
     "TOTAL_ITEMS": "Total Items",
     "TOTAL_PRICE": "Total Price",
-    "PROCEED_CHECKOUT": "Proceed to Checkout"
+    "PROCEED_CHECKOUT": "Proceed to Checkout",
+    "CHECKOUT_CONFIRMATION": "Confirm Your Order",
+    "ORDER_SUMMARY": "Order Summary",
+    "CANCEL": "Cancel",
+    "CONFIRM_PURCHASE": "Confirm Purchase",
+    "CHECKOUT_NOTICE": "By confirming this purchase, you agree to our terms and conditions. Your order will be processed immediately.",
+    "PURCHASE_SUCCESSFUL": "Purchase Successful!",
+    "THANK_YOU": "Thank You!",
+    "ORDER_PLACED": "Your order has been placed successfully.",
+    "ORDER_DETAILS": "You will receive a confirmation email with your order details shortly.",
+    "ORDER_NUMBER": "Order Number",
+    "TOTAL_PAID": "Total Paid",
+    "CONTINUE_SHOPPING": "Continue Shopping",
+    "ORDER_CREATION_FAILED": "Failed to create order. Please try again."
   },
   "FAVORITES": {
     "EMPTY": "No favorites yet",
@@ -115,7 +135,12 @@
     "IMAGE_1_URL": "Image 1 URL",
     "IMAGE_2_URL": "Image 2 URL",
     "IMAGE_3_URL": "Image 3 URL",
-    "SAVE_HERO": "Save Hero Images"
+    "SAVE_HERO": "Save Hero Images",
+    "VALIDATION_REQUIRED": "Please fill in all required fields: Title, Brand, and Category",
+    "VALIDATION_PRICE": "Please enter a valid price greater than 0",
+    "VALIDATION_STOCK": "Please enter a valid stock quantity (0 or greater)",
+    "UPDATE_FAILED": "Failed to update product. Please try again.",
+    "ADD_FAILED": "Failed to add product. Please try again."
   },
   "AUTH": {
     "LOGIN": {
@@ -155,5 +180,14 @@
       "INVALID_CREDENTIALS": "Invalid email or password.",
       "LOGIN_SUCCESS": "Logged in."
     }
+  },
+  "PROFILE": {
+    "EDIT_PROFILE": "Edit Profile",
+    "NAME": "Name",
+    "SURNAME": "Surname",
+    "EMAIL": "Email",
+    "DATE_OF_BIRTH": "Date of Birth",
+    "SAVE": "Save",
+    "CANCEL": "Cancel"
   }
 }

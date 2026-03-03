@@ -1,4 +1,5 @@
 <section class="welcome-screen" aria-label="Welcome screen">
+  <img src="assets/welcome.png" alt="Welcome background" class="welcome-bg">
   <div class="language-selector">
     <select class="lang-select" [value]="currentLang" (change)="switchLanguage($any($event.target).value)">
       <option value="en">{{ 'LANGUAGE.ENGLISH' | translate }}</option>

@@ -38,6 +38,7 @@
 .auth-form button {
   width: fit-content;
   padding: 0.6rem 0.9rem;
+  margin-bottom:  0.5rem;
   border-radius: 10px;
   border: 1px solid var(--button-border);
   background: var(--link-color);

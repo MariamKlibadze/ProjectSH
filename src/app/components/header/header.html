@@ -17,7 +17,7 @@
     @if (!auth.isLoggedIn()) {
     <a routerLink="/login">{{ 'NAV.LOGIN' | translate }}</a>
     } @else {
-    <span>{{ auth.currentUserName() || auth.currentUserEmail() }}</span>
+    <span class="user-name" (click)="openProfileModal()">{{ auth.currentUserName() || auth.currentUserEmail() }}</span>
     <a href="" (click)="$event.preventDefault(); auth.logout()">{{ 'NAV.LOGOUT' | translate }}</a>
     }
     <select class="lang-select" [value]="currentLang" (change)="switchLanguage($any($event.target).value)">
@@ -62,7 +62,8 @@
         <a routerLink="/login" (click)="closeMobileMenu()">{{ 'NAV.LOGIN' | translate }}</a>
         } @else {
         <div class="mobile-user-info">
-            <span>{{ auth.currentUserName() || auth.currentUserEmail() }}</span>
+            <span class="user-name" (click)="openProfileModal()">{{ auth.currentUserName() || auth.currentUserEmail()
+                }}</span>
             <a href="" (click)="$event.preventDefault(); auth.logout(); closeMobileMenu()">{{ 'NAV.LOGOUT' | translate
                 }}</a>
         </div>
@@ -80,3 +81,33 @@
         </button>
     </div>
 </div>
+
+<!-- Profile Edit Modal -->
+@if (showProfileModal()) {
+<div class="modal-overlay" (click)="closeProfileModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <h2>{{ 'PROFILE.EDIT_PROFILE' | translate }}</h2>
+        <form (ngSubmit)="saveProfile()">
+            <label for="profile-name">{{ 'PROFILE.NAME' | translate }}</label>
+            <input id="profile-name" type="text" [(ngModel)]="profileName" name="name" required>
+
+            <label for="profile-surname">{{ 'PROFILE.SURNAME' | translate }}</label>
+            <input id="profile-surname" type="text" [(ngModel)]="profileSurname" name="surname" required>
+
+            <label for="profile-email">{{ 'PROFILE.EMAIL' | translate }}</label>
+            <input id="profile-email" type="email" [(ngModel)]="profileEmail" name="email" required>
+
+            <label for="profile-mobile">{{ 'PROFILE.DATE_OF_BIRTH' | translate }}</label>
+            <input id="profile-mobile" type="date" [(ngModel)]="profileDateOfBirth" name="dateOfBirth">
+
+            <p *ngIf="profileMessage()" [class.success]="profileMessage().includes('success')"
+                [class.error]="!profileMessage().includes('success')">{{ profileMessage() }}</p>
+
+            <div class="modal-buttons">
+                <button type="button" (click)="closeProfileModal()">{{ 'PROFILE.CANCEL' | translate }}</button>
+                <button type="submit">{{ 'PROFILE.SAVE' | translate }}</button>
+            </div>
+        </form>
+    </div>
+</div>
+}

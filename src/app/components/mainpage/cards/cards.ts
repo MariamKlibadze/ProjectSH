@@ -21,11 +21,13 @@ export class CardsComponent implements OnInit, OnDestroy {
   loading = false;
   errorMessage = '';
   authMessage = '';
+  showLoginModal = false;
   searchQuery = signal('');
   selectedCategory = signal('');
   selectedBrand = signal('');
   maxPrice = signal<number | null>(null);
   minRating = signal(0);
+  sidebarOpen = signal(true);
 
   pageIndex = 1;
   pageSize = 120;
@@ -114,6 +116,16 @@ export class CardsComponent implements OnInit, OnDestroy {
     return Array.from({ length: 5 }, (_, i) => (i + 1 <= full ? '★' : '☆')).join('');
   }
 
+  starsArray(rating: number) {
+    const full = Math.floor(rating);
+    const hasHalf = rating % 1 >= 0.5;
+    return Array.from({ length: 5 }, (_, i) => {
+      if (i < full) return 'gold';
+      if (i === full && hasHalf) return 'gold'; // or 'half' but for simplicity gold
+      return 'gray';
+    });
+  }
+
   private normalizeRating(value: unknown): number {
     if (typeof value === 'number' && Number.isFinite(value)) {
       return Math.min(5, Math.max(0, value));
@@ -141,7 +153,7 @@ export class CardsComponent implements OnInit, OnDestroy {
 
   addToCart(p: Product) {
     if (!this.auth.isLoggedIn()) {
-      this.authMessage = this.translate.instant('MESSAGES.AUTH_MESSAGE');
+      this.showLoginModal = true;
       return;
     }
     this.authMessage = '';
@@ -169,6 +181,14 @@ export class CardsComponent implements OnInit, OnDestroy {
     this.favoritesService.remove(productId);
   }
 
+  toggleFavorite(p: Product) {
+    if (this.isFavorite(p._id)) {
+      this.removeFromFavorites(p._id);
+    } else {
+      this.addToFavorites(p);
+    }
+  }
+
   incrementCart(productId: string) {
     this.cartService.increment(productId);
   }
@@ -179,6 +199,15 @@ export class CardsComponent implements OnInit, OnDestroy {
 
   removeFromCart(productId: string) {
     this.cartService.remove(productId);
+  }
+
+  closeLoginModal() {
+    this.showLoginModal = false;
+  }
+
+  goToLogin() {
+    this.showLoginModal = false;
+    this.router.navigate(['/login']);
   }
 
   isFavorite(productId: string) {
@@ -213,6 +242,10 @@ export class CardsComponent implements OnInit, OnDestroy {
   onSearchInput(event: Event) {
     const target = event.target as HTMLInputElement;
     this.searchQuery.set(target.value);
+  }
+
+  toggleSidebar() {
+    this.sidebarOpen.set(!this.sidebarOpen());
   }
 
   onCategoryChange(event: Event) {

@@ -22,14 +22,25 @@
     </div>
   </section>
 
-  <section class="layout">
-    <aside class="sidebar">
+  <section class="layout" [class.sidebar-closed]="!sidebarOpen()">
+    <aside class="sidebar" [class.sidebar-closed]="!sidebarOpen()">
       <h3 class="sidebar-title">{{ 'FILTERS.SEARCH' | translate }} & {{ 'FILTERS.CATEGORY' | translate | lowercase }}
       </h3>
 
       <label class="field-label" for="search">{{ 'FILTERS.SEARCH' | translate }}</label>
-      <input id="search" type="text" class="field" [placeholder]="'FILTERS.SEARCH' | translate" [value]="searchQuery()"
-        (input)="onSearchInput($event)" />
+      <div class="container">
+        <div class="search-container">
+          <input id="search" class="input" type="text" [placeholder]="'FILTERS.SEARCH' | translate"
+            [value]="searchQuery()" (input)="onSearchInput($event)">
+          <svg viewBox="0 0 24 24" class="search__icon">
+            <g>
+              <path
+                d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z">
+              </path>
+            </g>
+          </svg>
+        </div>
+      </div>
 
       <label class="field-label" for="category">{{ 'FILTERS.CATEGORY' | translate }}</label>
       <select id="category" class="field" [value]="selectedCategory()" (change)="onCategoryChange($event)">
@@ -65,7 +76,7 @@
         }}</button>
     </aside>
 
-    <div class="content">
+    <div class="content" (click)="toggleSidebar()">
       <section class="grid">
         @if (!auth.isLoggedIn()) {
         <p class="notice">
@@ -88,55 +99,58 @@
         } @else {
         @for (p of filteredProducts(); track p._id) {
         <article class="card">
-          <img class="thumb" [src]="p.thumbnail" [alt]="p.title" />
-
-          <div class="body">
-            <a class="title" [routerLink]="['/product', p._id]">
-              {{ p.title }}
-            </a>
-
-            <div class="meta">
-              <span class="price">{{ p.price.current }} {{ p.price.currency }}</span>
-              <span class="rating" [title]="averageRating(p).toFixed(1)">{{ stars(averageRating(p)) }}</span>
+          <div class="image-container">
+            <img [src]="p.thumbnail" [alt]="p.title" routerLink="/product/{{p._id}}" />
+            <div class="price">{{ p.price.current }} {{ p.price.currency }}</div>
+            <div class="favorite" (click)="toggleFavorite(p); $event.stopPropagation()">
+              <input type="checkbox" [checked]="isFavorite(p._id)" [disabled]="!auth.isLoggedIn()" />
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
             </div>
-            <p class="rating-count">{{ ratingCount(p._id) }} {{ 'PRODUCT.RATINGS' | translate }}</p>
-
-            <div class="tags">
-              <span class="tag">{{ p.category.name }}</span>
-              <span class="tag">{{ p.brand }}</span>
+          </div>
+          <div class="content">
+            <div class="brand">{{ p.brand }}</div>
+            <div class="product-name" routerLink="/product/{{p._id}}">{{ p.title }}</div>
+            <div class="rating" [title]="averageRating(p).toFixed(1)">
+              @for (star of starsArray(averageRating(p)); track $index) {
+              <svg viewBox="0 0 24 24">
+                <path [attr.fill]="star"
+                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
+              }
+              <span>{{ ratingCount(p._id) }}</span>
             </div>
-
-            <p class="stock">{{ 'PRODUCT.IN_STOCK' | translate }}: {{ p.stock }}</p>
-            <p class="stock">{{ 'PRODUCT.SELECTED' | translate }}: {{ selectedQuantity(p._id) }} | {{ 'PRODUCT.LEFT' |
-              translate }}: {{ stockLeft(p) }}</p>
-
-            @if (selectedQuantity(p._id) > 0) {
-            <div class="cart-controls">
-              <button class="btn small" (click)="decrementCart(p._id)">-</button>
-              <span class="quantity">{{ selectedQuantity(p._id) }}</span>
-              <button class="btn small" (click)="incrementCart(p._id)"
-                [disabled]="selectedQuantity(p._id) >= p.stock">+</button>
-              <button class="btn remove" (click)="removeFromCart(p._id)">{{ 'PRODUCT.REMOVE_FROM_CART' | translate
-                }}</button>
+            <div class="stock-info">
+              <span class="stock-label">{{ 'PRODUCT.STOCK_LEFT' | translate }}:</span>
+              <span class="stock-value" [class.low-stock]="stockLeft(p) <= 5" [class.out-of-stock]="stockLeft(p) === 0">
+                {{ stockLeft(p) }}
+              </span>
             </div>
-            } @else {
-            <button class="btn" (click)="addToCart(p)" [disabled]="stockLeft(p) === 0 || !auth.isLoggedIn()">
-              {{ stockLeft(p) === 0 ? ('PRODUCT.OUT_OF_STOCK' | translate) : ('PRODUCT.ADD_TO_CART' | translate) }}
-            </button>
-            }
-
-            @if (isFavorite(p._id)) {
-            <button class="btn secondary favorited" (click)="removeFromFavorites(p._id)">{{
-              'PRODUCT.REMOVE_FROM_FAVORITES' |
-              translate }}</button>
-            } @else {
-            <button class="btn secondary" (click)="addToFavorites(p)" [disabled]="!auth.isLoggedIn()">{{
-              'PRODUCT.ADD_TO_FAVORITES' | translate }}</button>
-            }
-
-            @if (auth.isAdmin()) {
-            <button class="btn edit" (click)="editProduct(p)">{{ 'PRODUCT.EDIT' | translate }}</button>
-            }
+            <div class="button-container">
+              @if (selectedQuantity(p._id) > 0) {
+              <div class="cart-controls">
+                <div class="quantity-controls">
+                  <button class="button small" (click)="decrementCart(p._id); $event.stopPropagation()">-</button>
+                  <span class="quantity">{{ selectedQuantity(p._id) }}</span>
+                  <button class="button small" (click)="incrementCart(p._id); $event.stopPropagation()"
+                    [disabled]="selectedQuantity(p._id) >= p.stock">+</button>
+                </div>
+                <button class="button remove-small" (click)="removeFromCart(p._id); $event.stopPropagation()">{{
+                  'PRODUCT.REMOVE' | translate }}</button>
+              </div>
+              } @else {
+              <button class="button buy-button" (click)="addToCart(p); $event.stopPropagation()"
+                [disabled]="stockLeft(p) === 0">
+                {{ stockLeft(p) === 0 ? ('PRODUCT.OUT_OF_STOCK' | translate) : ('PRODUCT.ADD_TO_CART' | translate) }}
+              </button>
+              }
+              @if (auth.isAdmin()) {
+              <button class="button edit" (click)="editProduct(p); $event.stopPropagation()">{{ 'PRODUCT.EDIT' |
+                translate }}</button>
+              }
+            </div>
           </div>
         </article>
         }
@@ -145,4 +159,23 @@
       </section>
     </div>
   </section>
+
+  <!-- Login Required Modal -->
+  @if (showLoginModal) {
+  <div class="modal-overlay" (click)="closeLoginModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ 'MESSAGES.LOGIN_REQUIRED_TITLE' | translate }}</h3>
+        <button class="modal-close" (click)="closeLoginModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <p>{{ 'MESSAGES.LOGIN_REQUIRED_MESSAGE' | translate }}</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeLoginModal()">{{ 'MESSAGES.CANCEL' | translate }}</button>
+        <button class="btn btn-primary" (click)="goToLogin()">{{ 'MESSAGES.LOGIN' | translate }}</button>
+      </div>
+    </div>
+  </div>
+  }
 </section>

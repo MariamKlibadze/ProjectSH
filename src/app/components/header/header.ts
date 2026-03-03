@@ -1,20 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { AuthService } from '../services/auth.service';
 import { CartService } from '../services/cart.service';
 import { FavoritesService } from '../services/favorites.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, TranslateModule],
+  imports: [RouterLink, RouterLinkActive, TranslateModule, CommonModule, FormsModule],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header {
   isMobileMenuOpen = false;
   isDarkMode = false;
+  showProfileModal = signal(false);
+  profileName = signal('');
+  profileSurname = signal('');
+  profileEmail = signal('');
+  profileMobile = signal('');
+  profileDateOfBirth = signal('');
+  profileMessage = signal('');
 
   constructor(
     public auth: AuthService,
@@ -71,5 +80,41 @@ export class Header {
 
   closeMobileMenu() {
     this.isMobileMenuOpen = false;
+  }
+
+  openProfileModal() {
+    const user = this.getCurrentUser();
+    if (user) {
+      this.profileName.set(user.name || '');
+      this.profileSurname.set(user.surname || '');
+      this.profileEmail.set(user.email || '');
+      this.profileDateOfBirth.set(user.dateOfBirth || '');
+      this.profileMessage.set('');
+      this.showProfileModal.set(true);
+      this.closeMobileMenu(); // Close mobile menu when opening profile modal
+    }
+  }
+
+  closeProfileModal() {
+    this.showProfileModal.set(false);
+  }
+
+  saveProfile() {
+    const result = this.auth.updateUser({
+      name: this.profileName(),
+      surname: this.profileSurname(),
+      email: this.profileEmail(),
+      dateOfBirth: this.profileDateOfBirth(),
+    });
+    this.profileMessage.set(result.message);
+    if (result.ok) {
+      setTimeout(() => this.closeProfileModal(), 2000);
+    }
+  }
+
+  private getCurrentUser() {
+    const email = this.auth.currentUserEmail();
+    if (!email) return null;
+    return this.auth['users']().find((u: any) => u.email === email);
   }
 }

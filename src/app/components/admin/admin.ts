@@ -1,10 +1,12 @@
 import { Component, OnInit, computed, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProductsService, Product } from '../services/products.service';
 import { ReviewsService, Review } from '../services/reviews.service';
 import { AuthService } from '../services/auth.service';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-admin',
@@ -17,6 +19,7 @@ export class AdminComponent implements OnInit {
     products: Product[] = [];
     loading = false;
     errorMessage = '';
+    successMessage = '';
     reviews = computed(() => Object.values(this.reviewsApi.allReviews()).flat());
 
     private editId: string | null = null;
@@ -37,49 +40,46 @@ export class AdminComponent implements OnInit {
     description = '';
 
 
-    constructor(private productsApi: ProductsService, private reviewsApi: ReviewsService, private auth: AuthService, private router: Router, private route: ActivatedRoute) {
-        effect(() => {
-            if (!this.auth.isAdmin()) {
-                this.router.navigateByUrl('/mainpage');
-            }
-        });
+    constructor(private productsApi: ProductsService, private reviewsApi: ReviewsService, private auth: AuthService, private router: Router, private route: ActivatedRoute, private translate: TranslateService) {
     }
 
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
             this.editId = params['edit'] || null;
         });
-        this.load();
+        this.load().subscribe();
     }
 
-    load(): void {
+    load(): Observable<any> {
         this.loading = true;
         this.errorMessage = '';
         // Match the working page size used on the cards page.
-        this.productsApi.getAll(1, 120).subscribe({
-            next: (res) => {
-                this.products = res.products;
-                this.loading = false;
-                this.updateDropdowns();
-                this.checkEdit();
-                if (this.products.length === 0) {
-                    this.productsApi.getAllUnpaged().subscribe({
-                        next: (products) => {
-                            this.products = products;
-                            this.updateDropdowns();
-                            this.checkEdit();
-                        },
-                        error: () => {
-                            this.errorMessage = 'Failed to load products.';
-                        }
-                    });
+        return this.productsApi.getAll(1, 120).pipe(
+            tap({
+                next: (res) => {
+                    this.products = res.products;
+                    this.loading = false;
+                    this.updateDropdowns();
+                    this.checkEdit();
+                    if (this.products.length === 0) {
+                        this.productsApi.getAllUnpaged().subscribe({
+                            next: (products) => {
+                                this.products = products;
+                                this.updateDropdowns();
+                                this.checkEdit();
+                            },
+                            error: () => {
+                                this.errorMessage = 'Failed to load products.';
+                            }
+                        });
+                    }
+                },
+                error: () => {
+                    this.loading = false;
+                    this.errorMessage = 'Failed to load products.';
                 }
-            },
-            error: () => {
-                this.loading = false;
-                this.errorMessage = 'Failed to load products.';
-            }
-        });
+            })
+        );
     }
 
     updateDropdowns(): void {
@@ -114,17 +114,17 @@ export class AdminComponent implements OnInit {
     save(): void {
         // Validate required fields
         if (!this.title.trim() || !this.brand.trim() || !this.categoryName.trim()) {
-            alert('Please fill in all required fields: Title, Brand, and Category');
+            this.errorMessage = this.translate.instant('ADMIN.VALIDATION_REQUIRED');
             return;
         }
 
         if (this.price <= 0) {
-            alert('Please enter a valid price greater than 0');
+            this.errorMessage = this.translate.instant('ADMIN.VALIDATION_PRICE');
             return;
         }
 
         if (this.stock < 0) {
-            alert('Please enter a valid stock quantity (0 or greater)');
+            this.errorMessage = this.translate.instant('ADMIN.VALIDATION_STOCK');
             return;
         }
 
@@ -143,31 +143,40 @@ export class AdminComponent implements OnInit {
             const updated: Product = { ...this.editing, ...input, price: input.price ?? this.editing.price, category: input.category ?? this.editing.category } as Product;
             this.productsApi.updateProductRemote(updated).subscribe({
                 next: () => {
-                    this.load();
-                    this.startAdd();
+                    setTimeout(() => {
+                        this.load().subscribe(() => {
+                            this.successMessage = 'Product updated successfully!';
+                            this.startAdd();
+                            setTimeout(() => this.successMessage = '', 3000);
+                        });
+                    }, 500); // Small delay to allow API to update
                 },
                 error: (error) => {
                     console.error('Error updating product:', error);
-                    alert('Failed to update product. Please try again.');
+                    this.errorMessage = this.translate.instant('ADMIN.UPDATE_FAILED');
                 }
             });
         } else {
             this.productsApi.addProductRemote(input).subscribe({
                 next: () => {
-                    this.load();
-                    this.startAdd();
+                    setTimeout(() => {
+                        this.load().subscribe(() => {
+                            this.successMessage = 'Product added successfully!';
+                            this.startAdd();
+                            setTimeout(() => this.successMessage = '', 3000);
+                        });
+                    }, 500);
                 },
                 error: (error) => {
                     console.error('Error adding product:', error);
-                    alert('Failed to add product. Please try again.');
+                    this.errorMessage = this.translate.instant('ADMIN.ADD_FAILED');
                 }
             });
         }
     }
 
     remove(id: string): void {
-        if (!confirm('Delete product?')) return;
-        this.productsApi.deleteProductRemote(id).subscribe(() => this.load());
+        this.productsApi.deleteProductRemote(id).subscribe(() => this.load().subscribe());
     }
 
     removeReview(reviewId: string): void {

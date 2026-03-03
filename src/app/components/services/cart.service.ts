@@ -139,4 +139,9 @@ export class CartService {
         }
       });
   }
+
+  clearCart(): void {
+    this.items.set([]);
+    this.persist();
+  }
 }

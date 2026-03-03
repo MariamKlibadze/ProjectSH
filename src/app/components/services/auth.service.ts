@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core'; // Translation service
 
 // Type definition for user data structure
 type AuthUser = {
+  id?: string; // API ID
   name: string; // User's first name
   surname: string; // User's last name
   gender: string; // User's gender
@@ -140,6 +141,44 @@ export class AuthService {
     localStorage.removeItem(SESSION_KEY);
   }
 
+  updateUser(updates: Partial<Pick<AuthUser, 'name' | 'surname' | 'email' | 'dateOfBirth'>>): { ok: boolean; message: string } {
+    const email = this.currentUserEmail();
+    if (!email) {
+      return { ok: false, message: 'Not logged in' };
+    }
+    const users = this.users();
+    const userIndex = users.findIndex(u => u.email === email);
+    if (userIndex === -1) {
+      return { ok: false, message: 'User not found' };
+    }
+    const updatedUser = { ...users[userIndex], ...updates };
+    if (updates.email && updates.email !== email) {
+      // Check if new email is taken
+      if (users.some(u => u.email === updates.email)) {
+        return { ok: false, message: 'Email already in use' };
+      }
+      // Update session
+      this.currentUserEmail.set(updates.email);
+      this.saveSession(updates.email);
+    }
+    users[userIndex] = updatedUser;
+    this.users.set(users);
+    this.saveUsers(users);
+
+    // Send to API if enabled and user has ID
+    if (AUTH_API_ENABLED && updatedUser.id) {
+      fetch(`${AUTH_API_BASE}/${updatedUser.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedUser),
+      }).catch(() => {
+        // API update failed, but local update succeeded
+      });
+    }
+
+    return { ok: true, message: 'Profile updated successfully' };
+  }
+
   private loadUsers(): AuthUser[] {
     try {
       const raw = localStorage.getItem(USERS_KEY);
@@ -149,6 +188,7 @@ export class AuthService {
       return parsed
         .filter((user) => !!user?.email && !!user?.password)
         .map((user) => ({
+          id: user.id,
           name: user.name ?? '',
           surname: user.surname ?? '',
           gender: user.gender ?? '',

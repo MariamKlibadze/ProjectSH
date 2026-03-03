@@ -1,82 +1,184 @@
 <section class="details-page">
-    <a class="back-link" routerLink="/mainpage">{{ 'PRODUCT_DETAILS.BACK_TO_PRODUCTS' | translate }}</a>
+    <nav class="breadcrumb">
+        <a class="back-link" routerLink="/mainpage">
+            <span class="back-icon">←</span>
+            {{ 'PRODUCT_DETAILS.BACK_TO_PRODUCTS' | translate }}
+        </a>
+    </nav>
 
     @if (loading) {
-    <p class="notice">{{ 'PRODUCT_DETAILS.LOADING' | translate }}</p>
+    <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">{{ 'PRODUCT_DETAILS.LOADING' | translate }}</p>
+    </div>
     } @else if (errorMessage) {
-    <p class="notice">{{ errorMessage }}</p>
+    <div class="error-container">
+        <div class="error-icon">⚠️</div>
+        <p class="error-message">{{ errorMessage }}</p>
+    </div>
     } @else if (product) {
-    <article class="details-card">
-        <img class="hero" [src]="product.thumbnail" [alt]="translatedTitle" />
-
-        <div class="content">
-            <h1>{{ translatedTitle }}</h1>
-            <h2 style="font-size: 1.1em; margin-top: 20px; margin-bottom: 10px;">{{ 'PRODUCT_DETAILS.DESCRIPTION' |
-                translate }}</h2>
-            <p class="description">{{ translatedDescription }}</p>
-
-            <div class="meta-row">
-                <span class="price">{{ product.price.current }} {{ product.price.currency }}</span>
-                <span class="rating" [title]="averageRating().toFixed(1)">{{ stars(averageRating()) }}</span>
+    <div class="product-container">
+        <article class="product-showcase">
+            <div class="image-gallery">
+                <img class="main-image" [src]="product.thumbnail" [alt]="translatedTitle" />
+                <div class="image-overlay"></div>
             </div>
 
-            <div class="tags">
-                <span class="tag">{{ translatedCategory }}</span>
-                <span class="tag">{{ translatedBrand }}</span>
-            </div>
+            <div class="product-info">
+                <header class="product-header">
+                    <h1 class="product-title">{{ translatedTitle }}</h1>
+                    <div class="product-meta">
+                        <div class="rating-display">
+                            <span class="stars">{{ stars(averageRating()) }}</span>
+                            <span class="rating-value">{{ averageRating().toFixed(1) }}</span>
+                        </div>
+                        <div class="price-display">
+                            <span class="current-price">{{ product.price.current }}</span>
+                            <span class="currency">{{ product.price.currency }}</span>
+                        </div>
+                    </div>
+                </header>
 
-            <p class="stock">{{ 'PRODUCT.IN_STOCK' | translate }}: {{ product.stock }}</p>
-        </div>
-    </article>
+                <div class="product-details">
+                    <div class="description-section">
+                        <h3 class="section-title">{{ 'PRODUCT_DETAILS.DESCRIPTION' | translate }}</h3>
+                        <p class="product-description">{{ translatedDescription }}</p>
+                    </div>
+
+                    <div class="specifications">
+                        <div class="spec-item">
+                            <span class="spec-label">{{ 'PRODUCT.IN_STOCK' | translate }}:</span>
+                            <span class="spec-value" [class.low-stock]="product.stock < 10">{{ product.stock }}</span>
+                        </div>
+                    </div>
+
+                    <div class="category-tags">
+                        <span class="category-tag">{{ translatedCategory }}</span>
+                        <span class="brand-tag">{{ translatedBrand }}</span>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="primary-button cart-button" (click)="addToCart(product)"
+                        [disabled]="product.stock <= 0">
+                        <span class="button-icon">{{ product.stock <= 0 ? '❌' : '🛒' }}</span>
+                                <span class="button-text">{{ product.stock <= 0 ? ('PRODUCT.OUT_OF_STOCK' | translate) :
+                                        ('PRODUCT.ADD_TO_CART' | translate) }}</span>
+                    </button>
+
+                    <button class="secondary-button favorite-button" (click)="toggleFavorite(product)"
+                        [disabled]="!auth.isLoggedIn()">
+                        <span class="button-icon">{{ isFavorite(product._id) ? '❤️' : '🤍' }}</span>
+                        <span class="button-text">{{ isFavorite(product._id) ? ('PRODUCT.REMOVE_FROM_FAVORITES' |
+                            translate) : ('PRODUCT.ADD_TO_FAVORITES' | translate) }}</span>
+                    </button>
+                </div>
+            </div>
+        </article>
+    </div>
 
     <section class="reviews-section">
-        <h2>{{ 'PRODUCT_DETAILS.REVIEWS_TITLE' | translate }} ({{ reviews().length }})</h2>
+        <div class="reviews-header">
+            <h2 class="reviews-title">{{ 'PRODUCT_DETAILS.REVIEWS_TITLE' | translate }}</h2>
+            <span class="reviews-count">({{ reviews().length }})</span>
+        </div>
 
         @if (reviews().length === 0) {
-        <p class="notice">{{ 'PRODUCT_DETAILS.NO_REVIEWS' | translate }}</p>
+        <div class="empty-reviews">
+            <div class="empty-icon">💬</div>
+            <p class="empty-text">{{ 'PRODUCT_DETAILS.NO_REVIEWS' | translate }}</p>
+        </div>
         } @else {
         <div class="reviews-list">
             @for (review of reviews(); track review.id ?? review.createdAt) {
-            <article class="review-item">
-                <div class="review-head">
-                    <strong>{{ review.userEmail }}</strong>
-                    <span class="rating">{{ stars(review.rating) }}</span>
+            <article class="review-card">
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar">{{ review.userEmail.charAt(0).toUpperCase() }}</div>
+                        <div class="reviewer-details">
+                            <strong class="reviewer-name">{{ review.userEmail }}</strong>
+                            <div class="review-rating">{{ stars(review.rating) }}</div>
+                        </div>
+                    </div>
                     @if (auth.currentUserEmail() === review.userEmail) {
-                    <button class="delete-btn" (click)="deleteReview(review.id!)">{{ 'PRODUCT_DETAILS.DELETE_REVIEW' |
-                        translate }}</button>
+                    <button class="delete-review-btn" (click)="deleteReview(review.id!)" title="Delete review">
+                        <span class="delete-icon">🗑️</span>
+                    </button>
                     }
                 </div>
-                <p>{{ review.comment }}</p>
-                <small>{{ review.createdAt }}</small>
+                <div class="review-content">
+                    <p class="review-text">{{ review.comment }}</p>
+                    <time class="review-date">{{ review.createdAt }}</time>
+                </div>
             </article>
             }
         </div>
         }
 
         @if (auth.isLoggedIn()) {
-        <form class="review-form" (submit)="$event.preventDefault(); submitReview()">
-            <label for="rating">{{ 'PRODUCT_DETAILS.YOUR_RATING' | translate }}</label>
-            <select id="rating" [value]="newRating" (change)="onRatingChange($event)">
-                <option value="5">5 ⭐</option>
-                <option value="4">4 ⭐</option>
-                <option value="3">3 ⭐</option>
-                <option value="2">2 ⭐</option>
-                <option value="1">1 ⭐</option>
-            </select>
+        <div class="add-review-section">
+            <h3 class="add-review-title">{{ 'PRODUCT_DETAILS.WRITE_REVIEW' | translate }}</h3>
+            <form class="review-form" (submit)="$event.preventDefault(); submitReview()">
+                <div class="form-group">
+                    <label for="rating" class="form-label">{{ 'PRODUCT_DETAILS.YOUR_RATING' | translate }}</label>
+                    <select id="rating" class="form-select" [value]="newRating" (change)="onRatingChange($event)">
+                        <option value="5">⭐⭐⭐⭐⭐ 5 - Excellent</option>
+                        <option value="4">⭐⭐⭐⭐ 4 - Very Good</option>
+                        <option value="3">⭐⭐⭐ 3 - Good</option>
+                        <option value="2">⭐⭐ 2 - Fair</option>
+                        <option value="1">⭐ 1 - Poor</option>
+                    </select>
+                </div>
 
-            <label for="comment">{{ 'PRODUCT_DETAILS.YOUR_REVIEW' | translate }}</label>
-            <textarea id="comment" rows="4" [value]="newComment" (input)="onCommentInput($event)"
-                [placeholder]="('PRODUCT_DETAILS.REVIEW_PLACEHOLDER' | translate)"></textarea>
+                <div class="form-group">
+                    <label for="comment" class="form-label">{{ 'PRODUCT_DETAILS.YOUR_REVIEW' | translate }}</label>
+                    <textarea id="comment" class="form-textarea" rows="4" [value]="newComment"
+                        (input)="onCommentInput($event)"
+                        [placeholder]="('PRODUCT_DETAILS.REVIEW_PLACEHOLDER' | translate)"></textarea>
+                </div>
 
-            <button type="submit">{{ 'PRODUCT_DETAILS.SUBMIT_REVIEW' | translate }}</button>
-        </form>
+                <button type="submit" class="submit-review-btn">
+                    <span class="submit-icon">📝</span>
+                    {{ 'PRODUCT_DETAILS.SUBMIT_REVIEW' | translate }}
+                </button>
+            </form>
+        </div>
         } @else {
-        <p class="notice">{{ 'PRODUCT_DETAILS.LOGIN_TO_REVIEW' | translate }}</p>
+        <div class="login-prompt">
+            <div class="login-icon">🔒</div>
+            <p class="login-text">{{ 'PRODUCT_DETAILS.LOGIN_TO_REVIEW' | translate }}</p>
+            <a routerLink="/login" class="login-link">{{ 'MESSAGES.LOGIN' | translate }}</a>
+        </div>
         }
 
         @if (submitMessage) {
-        <p class="notice">{{ submitMessage }}</p>
+        <div class="submit-message" [class.success]="!submitMessage.includes('Failed')"
+            [class.error]="submitMessage.includes('Failed')">
+            <span class="message-icon">{{ submitMessage.includes('Failed') ? '❌' : '✅' }}</span>
+            <span class="message-text">{{ submitMessage }}</span>
+        </div>
         }
     </section>
+
+    <!-- Login Required Modal -->
+    @if (showLoginModal) {
+    <div class="modal-overlay" (click)="closeLoginModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ 'MESSAGES.LOGIN_REQUIRED_TITLE' | translate }}</h3>
+                <button class="modal-close" (click)="closeLoginModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-message">{{ 'MESSAGES.LOGIN_REQUIRED_MESSAGE' | translate }}</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" (click)="closeLoginModal()">{{ 'MESSAGES.CANCEL' |
+                    translate }}</button>
+                <button class="modal-btn modal-btn-primary" (click)="goToLogin()">{{ 'MESSAGES.LOGIN' | translate
+                    }}</button>
+            </div>
+        </div>
+    </div>
+    }
     }
 </section>

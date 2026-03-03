@@ -14,6 +14,16 @@
     font-weight: 700;
 }
 
+.success-message {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
 .admin-layout {
     display: grid;
     grid-template-columns: 300px 1fr;
@@ -85,35 +95,60 @@
 }
 
 .btn {
-    padding: 0.5rem 1rem;
-    background: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
+    padding: 10px 5px;
+    border-radius: 10px;
+    border: 0;
+    background-color: rgb(50, 168, 80);
+    letter-spacing: 1.5px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: rgb(30, 120, 50) 0px 10px 0px 0px;
+    color: hsl(0, 0%, 100%);
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.1s ease;
+    font-weight: 600;
 }
 
 .btn:hover {
-    background: #45a049;
-    transform: translateY(-2px);
+    box-shadow: rgb(30, 120, 50) 0px 7px 0px 0px;
+}
+
+.btn:active {
+    background-color: rgb(50, 168, 80);
+    box-shadow: rgb(30, 120, 50) 0px 0px 0px 0px;
+    transform: translateY(5px);
+    transition: 200ms;
 }
 
 .btn.secondary {
-    background: #66bb6a;
+    background-color: rgb(50, 168, 80);
+    box-shadow: rgb(30, 120, 50) 0px 10px 0px 0px;
 }
 
 .btn.secondary:hover {
-    background: #5aad5f;
+    box-shadow: rgb(30, 120, 50) 0px 7px 0px 0px;
+}
+
+.btn.secondary:active {
+    background-color: rgb(50, 168, 80);
+    box-shadow: rgb(30, 120, 50) 0px 0px 0px 0px;
+    transform: translateY(5px);
+    transition: 200ms;
 }
 
 .btn.danger {
-    background: #f44336;
+    background-color: rgb(255, 56, 86);
+    box-shadow: rgb(201, 46, 70) 0px 10px 0px 0px;
 }
 
 .btn.danger:hover {
-    background: #d32f2f;
+    box-shadow: rgb(201, 46, 70) 0px 7px 0px 0px;
+}
+
+.btn.danger:active {
+    background-color: rgb(255, 56, 86);
+    box-shadow: rgb(201, 46, 70) 0px 0px 0px 0px;
+    transform: translateY(5px);
+    transition: 200ms;
 }
 
 .list h2 {
