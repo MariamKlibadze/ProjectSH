@@ -147,7 +147,7 @@ export class CardsComponent implements OnInit, OnDestroy {
     if (this.ratingCount(product._id) === 0) {
       return 0;
     }
-    
+
     const fallbackRating = this.normalizeRating(product.rating);
     const average = this.reviewsService.averageRating(product._id, fallbackRating);
     return this.normalizeRating(average);
@@ -233,7 +233,7 @@ export class CardsComponent implements OnInit, OnDestroy {
     const maxP = this.maxPrice();
     const minR = this.normalizeRating(this.minRating());
     const sortOption = this.sortBy();
-    
+
     let filtered = this.products().filter((product) => {
       const matchesQuery = !query
         || product.title.toLowerCase().includes(query)
@@ -249,15 +249,28 @@ export class CardsComponent implements OnInit, OnDestroy {
     // Apply sorting
     if (sortOption) {
       filtered = [...filtered].sort((a, b) => {
+        const ratingA = this.averageRating(a);
+        const ratingB = this.averageRating(b);
+        const hasRatingA = ratingA > 0;
+        const hasRatingB = ratingB > 0;
+        
         switch (sortOption) {
           case 'price-asc':
             return a.price.current - b.price.current;
           case 'price-desc':
             return b.price.current - a.price.current;
           case 'rating-asc':
-            return this.averageRating(a) - this.averageRating(b);
           case 'rating-desc':
-            return this.averageRating(b) - this.averageRating(a);
+            // Prioritize products with ratings over those without
+            if (hasRatingA && !hasRatingB) return -1; // A has rating, B doesn't - A comes first
+            if (!hasRatingA && hasRatingB) return 1;  // B has rating, A doesn't - B comes first
+            
+            // Both have ratings or both don't - sort by rating value
+            if (sortOption === 'rating-desc') {
+              return ratingB - ratingA; // High to low
+            } else {
+              return ratingA - ratingB; // Low to high
+            }
           default:
             return 0;
         }
