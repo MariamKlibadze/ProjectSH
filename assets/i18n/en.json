@@ -21,6 +21,12 @@
     "MIN_RATING": "Min rating",
     "ANY_RATING": "Any rating",
     "STARS": "{{count}}+ stars",
+    "SORT_BY": "Sort by",
+    "NO_SORT": "No sorting",
+    "PRICE_LOW_TO_HIGH": "Price: Low to High",
+    "PRICE_HIGH_TO_LOW": "Price: High to Low",
+    "RATING_LOW_TO_HIGH": "Rating: Low to High",
+    "RATING_HIGH_TO_LOW": "Rating: High to Low",
     "CLEAR_FILTERS": "Clear filters"
   },
   "MESSAGES": {
