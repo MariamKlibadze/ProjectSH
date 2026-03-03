@@ -122,7 +122,7 @@ export class CardsComponent implements OnInit, OnDestroy {
     if (rating === 0) {
       return Array(5).fill('gray');
     }
-    
+
     const full = Math.floor(rating);
     const hasHalf = rating % 1 >= 0.5;
     return Array.from({ length: 5 }, (_, i) => {
