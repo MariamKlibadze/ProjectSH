@@ -72,6 +72,15 @@
         <option value="5">{{ 'FILTERS.STARS' | translate:{count:5} }}</option>
       </select>
 
+      <label class="field-label" for="sort">{{ 'FILTERS.SORT_BY' | translate }}</label>
+      <select id="sort" class="field" [value]="sortBy()" (change)="onSortChange($event)">
+        <option value="">{{ 'FILTERS.NO_SORT' | translate }}</option>
+        <option value="price-asc">{{ 'FILTERS.PRICE_LOW_TO_HIGH' | translate }}</option>
+        <option value="price-desc">{{ 'FILTERS.PRICE_HIGH_TO_LOW' | translate }}</option>
+        <option value="rating-asc">{{ 'FILTERS.RATING_LOW_TO_HIGH' | translate }}</option>
+        <option value="rating-desc">{{ 'FILTERS.RATING_HIGH_TO_LOW' | translate }}</option>
+      </select>
+
       <button class="btn clear" type="button" (click)="clearFilters()">{{ 'FILTERS.CLEAR_FILTERS' | translate
         }}</button>
     </aside>

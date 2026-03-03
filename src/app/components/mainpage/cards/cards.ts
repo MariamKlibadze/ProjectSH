@@ -27,6 +27,7 @@ export class CardsComponent implements OnInit, OnDestroy {
   selectedBrand = signal('');
   maxPrice = signal<number | null>(null);
   minRating = signal(0);
+  sortBy = signal<'price-asc' | 'price-desc' | 'rating-asc' | 'rating-desc' | ''>('');
   sidebarOpen = signal(true);
 
   pageIndex = 1;
@@ -226,7 +227,9 @@ export class CardsComponent implements OnInit, OnDestroy {
     const query = this.searchQuery().trim().toLowerCase();
     const maxP = this.maxPrice();
     const minR = this.normalizeRating(this.minRating());
-    return this.products().filter((product) => {
+    const sortOption = this.sortBy();
+    
+    let filtered = this.products().filter((product) => {
       const matchesQuery = !query
         || product.title.toLowerCase().includes(query)
         || product.brand.toLowerCase().includes(query)
@@ -237,6 +240,26 @@ export class CardsComponent implements OnInit, OnDestroy {
       const matchesRating = this.averageRating(product) >= minR;
       return matchesQuery && matchesCategory && matchesBrand && matchesPrice && matchesRating;
     });
+
+    // Apply sorting
+    if (sortOption) {
+      filtered = [...filtered].sort((a, b) => {
+        switch (sortOption) {
+          case 'price-asc':
+            return a.price.current - b.price.current;
+          case 'price-desc':
+            return b.price.current - a.price.current;
+          case 'rating-asc':
+            return this.averageRating(a) - this.averageRating(b);
+          case 'rating-desc':
+            return this.averageRating(b) - this.averageRating(a);
+          default:
+            return 0;
+        }
+      });
+    }
+
+    return filtered;
   });
 
   onSearchInput(event: Event) {
@@ -270,12 +293,18 @@ export class CardsComponent implements OnInit, OnDestroy {
     this.minRating.set(Number.isFinite(value) ? Math.min(5, Math.max(0, value)) : 0);
   }
 
+  onSortChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.sortBy.set(target.value as any);
+  }
+
   clearFilters() {
     this.searchQuery.set('');
     this.selectedCategory.set('');
     this.selectedBrand.set('');
     this.maxPrice.set(null);
     this.minRating.set(0);
+    this.sortBy.set('');
   }
 
   editProduct(p: Product): void {

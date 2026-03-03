@@ -21,6 +21,12 @@
     "MIN_RATING": "მინ. რეიტინგი",
     "ANY_RATING": "ნებისმიერი რეიტინგი",
     "STARS": "{{count}}+ ვარსკვლავი",
+    "SORT_BY": "დალაგება",
+    "NO_SORT": "დაულაგავი",
+    "PRICE_LOW_TO_HIGH": "ფასი: დაბლიდან მაღლა",
+    "PRICE_HIGH_TO_LOW": "ფასი: მაღლიდან დაბლა",
+    "RATING_LOW_TO_HIGH": "რეიტინგი: დაბლიდან მაღლა",
+    "RATING_HIGH_TO_LOW": "რეიტინგი: მაღლიდან დაბლა",
     "CLEAR_FILTERS": "ფილტრების გასუფთავება"
   },
   "MESSAGES": {
