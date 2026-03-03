@@ -118,6 +118,11 @@ export class CardsComponent implements OnInit, OnDestroy {
   }
 
   starsArray(rating: number) {
+    // If rating is 0 (no reviews), all stars should be gray
+    if (rating === 0) {
+      return Array(5).fill('gray');
+    }
+    
     const full = Math.floor(rating);
     const hasHalf = rating % 1 >= 0.5;
     return Array.from({ length: 5 }, (_, i) => {
