@@ -20,13 +20,13 @@
     <div class="product-container">
         <article class="product-showcase">
             <div class="image-gallery">
-                <img class="main-image" [src]="product.thumbnail" [alt]="translatedTitle" />
+                <img class="main-image" [src]="product.thumbnail" [alt]="product.title" />
                 <div class="image-overlay"></div>
             </div>
 
             <div class="product-info">
                 <header class="product-header">
-                    <h1 class="product-title">{{ translatedTitle }}</h1>
+                    <h1 class="product-title">{{ product.title }}</h1>
                     <div class="product-meta">
                         <div class="rating-display">
                             <span class="stars">{{ stars(averageRating()) }}</span>
@@ -42,7 +42,7 @@
                 <div class="product-details">
                     <div class="description-section">
                         <h3 class="section-title">{{ 'PRODUCT_DETAILS.DESCRIPTION' | translate }}</h3>
-                        <p class="product-description">{{ translatedDescription }}</p>
+                        <p class="product-description">{{ product.description }}</p>
                     </div>
 
                     <div class="specifications">
@@ -53,8 +53,8 @@
                     </div>
 
                     <div class="category-tags">
-                        <span class="category-tag">{{ translatedCategory }}</span>
-                        <span class="brand-tag">{{ translatedBrand }}</span>
+                        <span class="category-tag">{{ product.category.name }}</span>
+                        <span class="brand-tag">{{ product.brand }}</span>
                     </div>
                 </div>
 

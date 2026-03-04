@@ -7,7 +7,6 @@ import { Review, ReviewsService } from '../services/reviews.service';
 import { CartService } from '../services/cart.service';
 import { FavoritesService } from '../services/favorites.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TranslationService } from '../services/translation.service';
 
 @Component({
     selector: 'app-product-details',
@@ -18,10 +17,6 @@ import { TranslationService } from '../services/translation.service';
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
     product: Product | null = null;
-    translatedDescription = '';
-    translatedTitle = '';
-    translatedCategory = '';
-    translatedBrand = '';
     loading = false;
     errorMessage = '';
     submitMessage = '';
@@ -31,7 +26,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
     private routeSub = new Subscription();
     private loadSub = new Subscription();
-    private langSub = new Subscription();
 
     constructor(
         private route: ActivatedRoute,
@@ -42,21 +36,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         private favoritesService: FavoritesService,
         public auth: AuthService,
         private cdr: ChangeDetectorRef,
-        private translate: TranslateService,
-        private translationService: TranslationService
+        private translate: TranslateService
     ) { }
 
     ngOnInit(): void {
-        // Subscribe to language changes to re-translate all product details
-        this.langSub = this.translate.onLangChange.subscribe(() => {
-            if (this.product) {
-                this.translateDescription(this.product.description);
-                this.translateTitle(this.product.title);
-                this.translateCategory(this.product.category.name);
-                this.translateBrand(this.product.brand);
-            }
-        });
-
         this.routeSub = this.route.paramMap.subscribe((params) => {
             const id = params.get('id')?.trim() ?? '';
             if (!id) {
@@ -74,7 +57,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.routeSub.unsubscribe();
         this.loadSub.unsubscribe();
-        this.langSub.unsubscribe();
     }
 
     private loadProduct(productId: string): void {
@@ -100,10 +82,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
                         return;
                     }
                     this.product = product;
-                    this.translateDescription(product.description);
-                    this.translateTitle(product.title);
-                    this.translateCategory(product.category.name);
-                    this.translateBrand(product.brand);
                     this.cdr.markForCheck();
                 },
                 error: () => {
@@ -112,144 +90,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
                     this.cdr.markForCheck();
                 },
             });
-    }
-
-    private translateDescription(description: string): void {
-        const currentLang = this.translate.currentLang || 'en';
-
-        // If English, use the description as-is
-        if (currentLang === 'en') {
-            this.translatedDescription = description;
-            this.cdr.markForCheck();
-            return;
-        }
-
-        // Check cache first
-        const cacheKey = `desc_${this.hashString(description)}_${currentLang}`;
-        const cached = localStorage.getItem(cacheKey);
-
-        if (cached) {
-            this.translatedDescription = cached;
-            this.cdr.markForCheck();
-            return;
-        }
-
-        // Try to translate using TranslationService
-        this.translationService.translateText(description, currentLang === 'ka' ? 'ka' : currentLang).subscribe({
-            next: (translated) => {
-                localStorage.setItem(cacheKey, translated);
-                this.translatedDescription = translated;
-                this.cdr.markForCheck();
-            },
-            error: () => {
-                // Fallback to original text
-                this.translatedDescription = description;
-                this.cdr.markForCheck();
-            }
-        });
-    }
-
-    private translateTitle(title: string): void {
-        const currentLang = this.translate.currentLang || 'en';
-
-        if (currentLang === 'en') {
-            this.translatedTitle = title;
-            this.cdr.markForCheck();
-            return;
-        }
-
-        const cacheKey = `title_${this.hashString(title)}_${currentLang}`;
-        const cached = localStorage.getItem(cacheKey);
-
-        if (cached) {
-            this.translatedTitle = cached;
-            this.cdr.markForCheck();
-            return;
-        }
-
-        this.translationService.translateText(title, currentLang === 'ka' ? 'ka' : currentLang).subscribe({
-            next: (translated) => {
-                localStorage.setItem(cacheKey, translated);
-                this.translatedTitle = translated;
-                this.cdr.markForCheck();
-            },
-            error: () => {
-                this.translatedTitle = title;
-                this.cdr.markForCheck();
-            }
-        });
-    }
-
-    private translateCategory(category: string): void {
-        const currentLang = this.translate.currentLang || 'en';
-
-        if (currentLang === 'en') {
-            this.translatedCategory = category;
-            this.cdr.markForCheck();
-            return;
-        }
-
-        const cacheKey = `category_${this.hashString(category)}_${currentLang}`;
-        const cached = localStorage.getItem(cacheKey);
-
-        if (cached) {
-            this.translatedCategory = cached;
-            this.cdr.markForCheck();
-            return;
-        }
-
-        this.translationService.translateText(category, currentLang === 'ka' ? 'ka' : currentLang).subscribe({
-            next: (translated) => {
-                localStorage.setItem(cacheKey, translated);
-                this.translatedCategory = translated;
-                this.cdr.markForCheck();
-            },
-            error: () => {
-                this.translatedCategory = category;
-                this.cdr.markForCheck();
-            }
-        });
-    }
-
-    private translateBrand(brand: string): void {
-        const currentLang = this.translate.currentLang || 'en';
-
-        if (currentLang === 'en') {
-            this.translatedBrand = brand;
-            this.cdr.markForCheck();
-            return;
-        }
-
-        const cacheKey = `brand_${this.hashString(brand)}_${currentLang}`;
-        const cached = localStorage.getItem(cacheKey);
-
-        if (cached) {
-            this.translatedBrand = cached;
-            this.cdr.markForCheck();
-            return;
-        }
-
-        this.translationService.translateText(brand, currentLang === 'ka' ? 'ka' : currentLang).subscribe({
-            next: (translated) => {
-                localStorage.setItem(cacheKey, translated);
-                this.translatedBrand = translated;
-                this.cdr.markForCheck();
-            },
-            error: () => {
-                this.translatedBrand = brand;
-                this.cdr.markForCheck();
-            }
-        });
-    }
-
-    private hashString(str: string): string {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            const char = str.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash;
-        }
-        return hash.toString();
     }
 
     stars(rating: number): string {
