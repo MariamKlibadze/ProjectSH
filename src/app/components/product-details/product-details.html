@@ -30,7 +30,7 @@
                     <div class="product-meta">
                         <div class="rating-display">
                             <span class="stars">{{ stars(averageRating()) }}</span>
-                            <span class="rating-value">{{ averageRating().toFixed(1) }} ({{ ratingCount() }} {{ 'RATINGS' | translate }})</span>
+                            <span class="rating-value">{{ 'PRODUCT_DETAILS.RATING_DISPLAY' | translate:{rating: averageRating().toFixed(1), count: ratingCount()} }}</span>
                         </div>
                         <div class="price-display">
                             <span class="current-price">{{ product.price.current }}</span>

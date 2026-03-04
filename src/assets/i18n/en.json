@@ -72,7 +72,8 @@
     "SUBMIT_REVIEW": "Submit review",
     "LOGIN_TO_REVIEW": "Please login to post a review and rating.",
     "REVIEW_SUBMITTED": "Review submitted successfully!",
-    "REVIEW_DELETED": "Review deleted successfully!"
+    "REVIEW_DELETED": "Review deleted successfully!",
+    "RATING_DISPLAY": "{rating} ({count, plural, =0{0 ratings} =1{1 rating} other{# ratings}})"
   },
   "CART": {
     "EMPTY": "Your cart is empty",
