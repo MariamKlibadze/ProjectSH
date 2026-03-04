@@ -93,6 +93,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     }
 
     stars(rating: number): string {
+        // If rating is 0 (no reviews), all stars should be gray
+        if (rating === 0) {
+            return '☆☆☆☆☆';
+        }
         const full = Math.round(rating);
         return Array.from({ length: 5 }, (_, index) => (index + 1 <= full ? '★' : '☆')).join('');
     }
@@ -103,8 +107,17 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     }
 
     averageRating(): number {
+        // If product has no reviews, return 0 rating
+        if (this.ratingCount() === 0) {
+            return 0;
+        }
         if (!this.product) return 0;
         return this.reviewsService.averageRating(this.product._id, this.product.rating);
+    }
+
+    ratingCount(): number {
+        if (!this.product) return 0;
+        return this.reviewsService.ratingCount(this.product._id);
     }
 
     onCommentInput(event: Event): void {
