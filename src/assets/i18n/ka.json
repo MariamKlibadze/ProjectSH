@@ -73,7 +73,7 @@
     "LOGIN_TO_REVIEW": "გთხოვთ შედით სისტემაში შეფასება და რეიტინგის დასამატებლად.",
     "REVIEW_SUBMITTED": "შეფასება წარმატებით გაიგზავნა!",
     "REVIEW_DELETED": "შეფასება წარმატებით წაიშალა!",
-    "RATING_DISPLAY": "{rating} ({count, plural, =0{0 შეფასებები} =1{1 შეფასება} other{# შეფასებები}})"
+    "RATING_DISPLAY": "{{rating}}"
   },
   "CART": {
     "EMPTY": "თქვენი კალათა ცარიელია",

@@ -17,6 +17,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
     product: Product | null = null;
+    translatedRatingDisplay = '';
     loading = false;
     errorMessage = '';
     submitMessage = '';
@@ -26,6 +27,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
     private routeSub = new Subscription();
     private loadSub = new Subscription();
+    private langSub = new Subscription();
 
     constructor(
         private route: ActivatedRoute,
@@ -40,6 +42,11 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit(): void {
+        // Subscribe to language changes to re-translate rating display
+        this.langSub = this.translate.onLangChange.subscribe(() => {
+            this.updateTranslatedRatingDisplay();
+        });
+
         this.routeSub = this.route.paramMap.subscribe((params) => {
             const id = params.get('id')?.trim() ?? '';
             if (!id) {
@@ -57,6 +64,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.routeSub.unsubscribe();
         this.loadSub.unsubscribe();
+        this.langSub.unsubscribe();
     }
 
     private loadProduct(productId: string): void {
@@ -82,6 +90,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
                         return;
                     }
                     this.product = product;
+                    this.updateTranslatedRatingDisplay();
                     this.cdr.markForCheck();
                 },
                 error: () => {
@@ -118,6 +127,20 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     ratingCount(): number {
         if (!this.product) return 0;
         return this.reviewsService.ratingCount(this.product._id);
+    }
+
+    private updateTranslatedRatingDisplay(): void {
+        if (!this.product) {
+            this.translatedRatingDisplay = '';
+            return;
+        }
+        const rating = this.averageRating();
+        const count = this.ratingCount();
+        this.translatedRatingDisplay = this.translate.instant('PRODUCT_DETAILS.RATING_DISPLAY', {
+            rating: rating.toFixed(1),
+            count: count
+        });
+        this.cdr.markForCheck();
     }
 
     onCommentInput(event: Event): void {
